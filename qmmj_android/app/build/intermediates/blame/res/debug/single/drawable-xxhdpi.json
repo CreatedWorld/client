@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "E:\\WorkSpace\\qmmj\\qmmj_android\\qmmj_adt\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\app_icon.png",
+        "source": "E:\\WorkSpace\\qmmj\\qmmj_android\\qmmj_adt\\app\\src\\main\\res\\drawable-xxhdpi\\app_icon.png"
+    },
+    {
+        "merged": "E:\\WorkSpace\\qmmj_adt\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi\\app_icon.png",
+        "source": "E:\\WorkSpace\\qmmj_adt\\app\\src\\main\\res\\drawable-xxhdpi\\app_icon.png"
+    }
+]

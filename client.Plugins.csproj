@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DCE3F3B7-609F-4DBF-0D1C-40F6524D31BF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+    <CompilerResponseFile></CompilerResponseFile>
+    <UnityProjectType>GamePlugins:3</UnityProjectType>
+    <UnityBuildTarget>Android:13</UnityBuildTarget>
+    <UnityVersion>5.5.0f3</UnityVersion>
+    <RootNamespace></RootNamespace>
+    <LangVersion>4</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Debug\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_5_0;UNITY_5_5;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;UNITY_ANDROID;ENABLE_SUBSTANCE;UNITY_ANDROID_API;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VIDEO;ENABLE_VR;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE;720</DefineConstants>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Release\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_5_0;UNITY_5_5;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;UNITY_ANDROID;ENABLE_SUBSTANCE;UNITY_ANDROID_API;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VIDEO;ENABLE_VR;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE;720</DefineConstants>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="Boo.Lang" />
+    <Reference Include="UnityScript.Lang" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PlaymodeTestsRunner">
+      <HintPath>Library\UnityAssemblies\UnityEngine.PlaymodeTestsRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HoloLens">
+      <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VR">
+      <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="NSpeex">
+      <HintPath>Assets\Plugins\NSpeex\NSpeex.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Scripts\ThirdPackage\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>Assets\Scripts\ThirdPackage\DOTween\DOTween43.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween46">
+      <HintPath>Assets\Scripts\ThirdPackage\DOTween\DOTween46.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Plugins\Net\LtiJson\IJsonWrapper.cs" />
+    <Compile Include="Assets\Plugins\Net\LtiJson\JsonData.cs" />
+    <Compile Include="Assets\Plugins\Net\LtiJson\JsonException.cs" />
+    <Compile Include="Assets\Plugins\Net\LtiJson\JsonMapper.cs" />
+    <Compile Include="Assets\Plugins\Net\LtiJson\JsonMockWrapper.cs" />
+    <Compile Include="Assets\Plugins\Net\LtiJson\JsonReader.cs" />
+    <Compile Include="Assets\Plugins\Net\LtiJson\JsonWriter.cs" />
+    <Compile Include="Assets\Plugins\Net\LtiJson\Lexer.cs" />
+    <Compile Include="Assets\Plugins\Net\LtiJson\ParserToken.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\BclHelpers.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\BufferExtension.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\BufferPool.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\CallbackAttributes.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Compiler\CompilerContext.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Compiler\CompilerDelegates.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Compiler\Local.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\DataFormat.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Extensible.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ExtensibleUtil.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\GlobalSuppressions.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Helpers.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\IExtensible.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\IExtension.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ImplicitFields.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\KeyValuePairProxy.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Meta\AttributeMap.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Meta\BasicList.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Meta\CallbackSet.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Meta\MetaType.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Meta\RuntimeTypeModel.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Meta\SubType.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Meta\TypeFormatEventArgs.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Meta\TypeModel.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Meta\ValueMember.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\NSocket.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\NSocketDemo.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\NSocketModel.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\NetObjectCache.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\PrefixStyle.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ProtoContractAttribute.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ProtoConverterAttribute.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ProtoEnumAttribute.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ProtoException.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ProtoIgnoreAttribute.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ProtoIncludeAttribute.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ProtoMemberAttribute.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ProtoReader.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ProtoWriter.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\SerializationContext.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\ArrayDecorator.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\BlobSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\BooleanSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\ByteSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\CharSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\CompiledSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\DateTimeSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\DecimalSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\DefaultValueDecorator.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\DoubleSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\EnumSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\FieldDecorator.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\GuidSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\IProtoSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\IProtoTypeSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\ISerializerProxy.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\ImmutableCollectionDecorator.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\Int16Serializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\Int32Serializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\Int64Serializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\KeyValuePairDecorator.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\ListDecorator.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\MemberSpecifiedDecorator.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\NetObjectSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\NullDecorator.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\ParseableSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\PropertyDecorator.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\ProtoDecoratorBase.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\ReflectedUriDecorator.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\SByteSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\SingleSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\StringSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\SubItemSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\SurrogateSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\SystemTypeSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\TagDecorator.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\TimeSpanSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\TupleSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\TypeSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\UInt16Serializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\UInt32Serializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\UInt64Serializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\Serializers\UriDecorator.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ServiceModel\ProtoBehaviorAttribute.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ServiceModel\ProtoBehaviorExtensionElement.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ServiceModel\ProtoEndpointBehavior.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ServiceModel\ProtoOperationBehavior.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\ServiceModel\XmlProtoSerializer.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\SubItemToken.cs" />
+    <Compile Include="Assets\Plugins\Net\Network\WireType.cs" />
+    <Compile Include="Assets\Plugins\Net\TypeConversion\FromString.cs" />
+    <Compile Include="Assets\Plugins\System.Web.Util\Helpers.cs" />
+    <Compile Include="Assets\Plugins\System.Web.Util\HttpEncoder.cs" />
+    <Compile Include="Assets\Plugins\System.Web\HttpUtility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Art\Battle\91city\saizi\saizi_Altas.xml" />
+    <None Include="Assets\Art\Battle\Battle.xml" />
+    <None Include="Assets\Card.xml" />
+    <None Include="Assets\Card2.xml" />
+    <None Include="Assets\Plugins\NSpeex\NSpeex.Agreement.txt" />
+    <None Include="Assets\Resources\Fonts\RemainTimeFont.fnt" />
+    <None Include="Assets\Resources\Shader\Card.shader" />
+    <None Include="Assets\Resources\Shader\ColorCorrectionCurves.shader" />
+    <None Include="Assets\Resources\Shader\ColorCorrectionCurvesSimple.shader" />
+    <None Include="Assets\Resources\Shader\ColorCorrectionSelective.shader" />
+    <None Include="Assets\Resources\Shader\HuBlur.shader" />
+    <None Include="Assets\Resources\Shader\NormalMapTangentSpace.shader" />
+    <None Include="Assets\Scripts\Shader\NormalMapTangentSpace_add.shader" />
+    <None Include="Assets\Scripts\Shader\RapidBlurEffect.shader" />
+    <None Include="Assets\Scripts\ThirdPackage\DOTween\DOTween.XML" />
+    <None Include="Assets\Scripts\ThirdPackage\DOTween\DOTween43.xml" />
+    <None Include="Assets\Scripts\ThirdPackage\DOTween\DOTween46.xml" />
+    <None Include="Assets\Scripts\ThirdPackage\DOTween\Editor\DOTweenEditor.XML" />
+    <None Include="Assets\Scripts\ThirdPackage\DOTween\readme.txt" />
+    <None Include="Assets\Scripts\ThirdPackage\iTweenEditor\README.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="GenerateTargetFrameworkMonikerAttribute" />
+</Project>

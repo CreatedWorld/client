@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:b28ce00657d5735028c63ca7bc4ba90c$ -->
+<TextureAtlas imagePath="Battle.png">
+    <SubTexture name="BattleBg" x="2" y="2" width="1280" height="720"/>
+    <SubTexture name="East1" x="178" y="972" width="34" height="31" frameX="-1" frameY="-2" frameWidth="38" frameHeight="37"/>
+    <SubTexture name="Master" x="142" y="926" width="44" height="44"/>
+    <SubTexture name="North1" x="142" y="972" width="34" height="31" frameX="-1" frameY="-3" frameWidth="38" frameHeight="37"/>
+    <SubTexture name="RotateBg" x="2" y="724" width="200" height="200"/>
+    <SubTexture name="RotatePart" x="2" y="926" width="138" height="66"/>
+    <SubTexture name="South1" x="214" y="958" width="32" height="29" frameX="-2" frameY="-4" frameWidth="36" frameHeight="37"/>
+    <SubTexture name="West1" x="188" y="926" width="31" height="30" frameX="-3" frameY="-3" frameWidth="37" frameHeight="36"/>
+</TextureAtlas>

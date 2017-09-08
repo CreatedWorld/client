@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:f41baebb439b252000d8d27264355956$ -->
+<TextureAtlas imagePath="saizi_Altas.png">
+    <SubTexture name="bei" x="160" y="144" width="56" height="140" frameX="-99" frameY="-10" frameWidth="156" frameHeight="156"/>
+    <SubTexture name="bg" x="2" y="2" width="156" height="156"/>
+    <SubTexture name="dong" x="2" y="304" width="140" height="56" frameX="-10" frameY="-99" frameWidth="156" frameHeight="156"/>
+    <SubTexture name="fangxiang" x="2" y="160" width="144" height="142" frameX="-4" frameY="-6" frameWidth="156" frameHeight="156"/>
+    <SubTexture name="nan" x="160" y="2" width="56" height="140" frameX="-1" frameY="-8" frameWidth="156" frameHeight="156"/>
+    <SubTexture name="xi" x="2" y="362" width="140" height="54" frameX="-9" frameY="-2" frameWidth="156" frameHeight="156"/>
+</TextureAtlas>
