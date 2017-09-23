@@ -73,6 +73,10 @@ public class NotificationConstant
     /// </summary>
     public const string MEDI_BATTLEVIEW_UPDATEALLHEAD = "MEDI_BATTLEVIEW_UPDATEALLHEAD";
     /// <summary>
+    /// 更新用户分数
+    /// </summary>
+    //public const string MEDI_BATTLEVIEW_UPDATESCORE = "MEDI_BATTLEVIEW_UPDATESCORE";
+    /// <summary>
     /// 更新单个头像信息，body为要更新的PlayerInfoVO
     /// </summary>
     public const string MEDI_BATTLEVIEW_UPDATESINGLEHEAD = "MEDI_BATTLEVIEW_UPDATESINGLEHEAD";
@@ -189,6 +193,10 @@ public class NotificationConstant
     /// </summary>
     public const string MEDI_BATTLEVIEW_SHOWMATCHRESULT = "MEDI_BATTLEVIEW_SHOWMATCHRESULT";
     /// <summary>
+    /// 房间结束
+    /// </summary>
+    public const string MEDI_BATTLEVIEW_SHOWROOMRESULT = "MEDI_BATTLEVIEW_SHOWROOMRESULT";
+    /// <summary>
     /// 显示战报播放UI
     /// </summary>
     public const string MEDI_BATTLEVIEW_SHOW_REPORTVIEW = "MEDI_BATTLEVIEW_SHOW_REPORTVIEW";
@@ -245,6 +253,32 @@ public class NotificationConstant
     /// 大厅的房间列表
     /// </summary>
     public const string MEDI_HALL_ROOMLIST = "MEDI_HALL_ROOMLIST";
+    /// <summary>
+    /// 显示投河
+    /// </summary>
+    public const string MEDI_ROOM_TOUHE = "MEDI_ROOM_TOUHE";
+    /// <summary>
+    /// 隐藏投河按钮
+    /// </summary>
+    public const string MEDI_ROOM_HIDETOUHE = "MEDI_ROOM_HIDETOUHE";
+    /// <summary>
+    /// 设置报听
+    /// </summary>
+    public const string MEDI_ROOM_BAOTING = "MEDI_ROOM_BAOTING";
+    /// <summary>
+    /// 设置报吊
+    /// </summary>
+    public const string MEDI_ROOM_BAODIAO = "MEDI_ROOM_BAODIAO";
+    /// <summary>
+    /// 设置报夹
+    /// </summary>
+    public const string MEDI_ROOM_BAOJIA = "MEDI_ROOM_BAOJIA";
+    /// <summary>
+    /// 设置抻吊
+    /// </summary>
+    public const string MEDI_ROOM_CHENDIAO = "MEDI_ROOM_CHENDIAO";
+
+
 }
 
 /// <summary>

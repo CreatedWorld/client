@@ -133,6 +133,22 @@ public class BattleView : UIView
     /// alpha渐变容器
     /// </summary>
     public CanvasGroup canvasGroup;
+    /// <summary>
+    /// 投河按钮
+    /// </summary>
+    public Button TouHeBtn;
+    /// <summary>
+    /// 投河ico
+    /// </summary>
+    //public GameObject touheIco;
+    /// <summary>
+    /// 报听按钮
+    /// </summary>
+    //public Button BaoTingBtn;
+    /// <summary>
+    /// 过按钮
+    /// </summary>
+    public Button PassBtn;
 
     private BattleProxy battleProxy;
 
@@ -151,7 +167,7 @@ public class BattleView : UIView
         ruleText = viewRoot.transform.Find("RoomInfoBg/Rule/Text").GetComponent<Text>();
         ruleText1 = viewRoot.transform.Find("RoomInfoBg/Rule/Text1").GetComponent<Text>();
         ruleText2 = viewRoot.transform.Find("RoomInfoBg/Rule/Text2").GetComponent<Text>();
-
+        //touheIco = viewRoot.transform.FindChild("DownHead/touhe").gameObject;
         BackBtn = viewRoot.transform.Find("ChatView/BackBtn").GetComponent<Button>();
         BackItemPanel = viewRoot.transform.Find("ChatView/BackBtn/BackItemPanel").gameObject;
         ExitRoomBtn = viewRoot.transform.Find("ChatView/BackBtn/BackItemPanel/ExitRoomBtn").GetComponent<Button>();
@@ -179,6 +195,9 @@ public class BattleView : UIView
         inviteBtn = viewRoot.transform.Find("InviteBtn").gameObject.GetComponent<Button>();
         reportView = viewRoot.transform.Find("ReportView").gameObject;
 
+        TouHeBtn = viewRoot.transform.FindChild("OperateView/touhe").GetComponent<Button>();
+        //BaoTingBtn = viewRoot.transform.FindChild("OperateView/baoting").GetComponent<Button>();
+        PassBtn = viewRoot.transform.FindChild("OperateView/pass").GetComponent<Button>();
         BackBtn.onClick.AddListener(
             () => { if (BackItemPanel.activeSelf) BackItemPanel.SetActive(false); else BackItemPanel.SetActive(true); }
             );

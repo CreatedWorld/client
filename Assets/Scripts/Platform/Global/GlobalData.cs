@@ -23,7 +23,7 @@ public static class GlobalData
     /// <summary>
     /// 登录服务器
     /// </summary>
-    public static string LoginServer = "47.95.34.172";
+    public static string LoginServer = "192.168.4.143";
     /// <summary>
     /// 是否有牌堆
     /// </summary>
@@ -51,8 +51,20 @@ public static class GlobalData
     /// <summary>
     /// 版本号
     /// </summary>
-    public static string VERSIONS = "9.8.1.1";
+    public static string VERSIONS = "9.19.1.2";
+    /// <summary>
+    /// 当前轮到哪个玩家出牌的id
+    /// </summary>
+    public static int optUserId = -1;
 
+    /// <summary>
+    /// 座位号
+    /// </summary>
+    public static int sit = 1;
+    /// <summary>
+    /// 是否完成打牌动作
+    /// </summary>
+    public static bool isPutCardDone = false;
     /// <summary>
     /// 牌局内玩家数量
     /// </summary>

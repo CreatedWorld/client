@@ -78,7 +78,7 @@ namespace Platform.Model.Battle
         /// 玩家信息字典{Sit:玩家信息VO}
         /// </summary>
         public Dictionary<int, PlayerInfoVOS2C> playerSitInfoDic;
-
+        
         /// <summary>
         /// 是否轮到自己出手
         /// </summary>
@@ -180,6 +180,12 @@ namespace Platform.Model.Battle
         /// </summary>
         public bool isEnterInput = false;
 
+        public bool isGameStart = false;
+        /// <summary>
+        /// 玩家分数
+        /// </summary>
+        public int score;
+
         public BattleProxy(string NAME) : base(NAME)
         {
             huTypes.Add(PlayerActType.CHI_HU);
@@ -204,7 +210,7 @@ namespace Platform.Model.Battle
             GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_ROOM_JOIN_ROOM, JoinInRoomHandler);
             GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_ROOM_JOIN_ROOM_BROADCAST, PushJoinHandler);
             GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_ROOM_EXIT_BROADCAST, ExitHandler);
-            GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_ROOM_DISSOLVE_BROADCAST,DissolutionHandler);
+            GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_ROOM_DISSOLVE_BROADCAST,DissolutionHandler); 
             GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_ROOM_READY_BROADCAST, PushReadyHandler);
             GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_ROOM_GAME_START_BROADCAST, GameStartHandler);
             GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_ROOM_PLAYER_ACT_BROADCAST, PushPlayerActHandler);
@@ -222,10 +228,62 @@ namespace Platform.Model.Battle
             GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_ROOM_ONLINESETTING_BROADCAST, OnlineSettingHandler);
             GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_ROOM_PLAY_A_MAHJONG, PlayAmahjongHandler);
             GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_SetCardS2C, SetCardHandler);
-            GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_GetAllCardS2C, GetAllCardHandler); 
+            GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_GetAllCardS2C, GetAllCardHandler);
+            GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_ROOM_TOU_HE_TIP, ShowTouHeTipHandler);
+            GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_ROOM_TOU_HE, TouHeHandler);
+            //GameMgr.Instance.AddMsgHandler(MsgNoS2C.S2C_BAOTING, BaoTingHandler);
             //GameMgr.Instance.AddMsgHandler(MsgNoS2C.CORE_PUSHSSSMATCHRESULT, ？);
         }
-
+        /// <summary>
+        /// 点击投河返回
+        /// </summary>
+        /// <param name="data"></param>
+        public void ShowTouHeTipHandler(byte[] bytes)
+        {
+            SendNotification(NotificationConstant.MEDI_ROOM_TOUHE);
+        }
+        /// <summary>
+        /// 显示投河
+        /// </summary>
+        /// <param name="bytes"></param>
+        public void TouHeHandler(byte[] bytes)
+        {
+            touHeS2C touheS2C = NetMgr.Instance.DeSerializes<touHeS2C>(bytes);
+            //Debug.Log(touheS2C.userId + " ==  "+touheS2C.touHeCode);
+            SendNotification(NotificationConstant.MEDI_ROOM_HIDETOUHE,touheS2C.userId);
+        }
+        /// <summary>
+        /// 推送报听
+        /// </summary>
+        /// <param name="bytes"></param>
+        public void BaoTingHandler()
+        {
+            SendNotification(NotificationConstant.MEDI_ROOM_BAOTING, GetPlayerActS2C().baoCards);
+        }
+        /// <summary>
+        /// 推送报夹
+        /// </summary>
+        /// <param name="bytes"></param>
+        public void BaoJiaHandler()
+        {
+            SendNotification(NotificationConstant.MEDI_ROOM_BAOJIA, GetPlayerActS2C().baoCards);
+        }
+        /// <summary>
+        /// 推送报吊
+        /// </summary>
+        /// <param name="bytes"></param>
+        public void BaoDiaoHandler()
+        {
+            SendNotification(NotificationConstant.MEDI_ROOM_BAODIAO, GetPlayerActS2C().baoCards);
+        }
+        /// <summary>
+        /// 推送抻吊
+        /// </summary>
+        /// <param name="bytes"></param>
+        public void ChenDiaoHandler()
+        {
+            SendNotification(NotificationConstant.MEDI_ROOM_CHENDIAO, GetPlayerActS2C().baoCards);
+        }
         /// <summary>
         /// 玩家动作
         /// </summary>
@@ -361,7 +419,7 @@ namespace Platform.Model.Battle
             tingCards.Clear();
             playerIdInfoDic.Add(selfInfoVO.userId, selfInfoVO);
             UpdatePlayerSitDic();
-            curInnings = 0;
+            curInnings = 1;
             creatorId = playerInfoProxy.userID;
             isStart = false;
             isSelfAction = false;
@@ -399,6 +457,7 @@ namespace Platform.Model.Battle
         /// <param PlayerName="bytes">消息体</param>
         private void JoinInRoomHandler(byte[] bytes)
         {
+            isGameStart = false;
             forbitActions = new List<ForbitActionVO>();
             var hallProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.HALL_PROXY) as HallProxy;
             var playerInfoProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.PLAYER_PROXY) as PlayerInfoProxy;
@@ -466,7 +525,14 @@ namespace Platform.Model.Battle
             {
                 EnterBattle();
             }
-            
+            //if (joinRoomS2C.optUserId != 0)//需要添加这个字段
+            //{
+
+            //    GlobalData.sit = playerIdInfoDic[playerInfoProxy.userID].sit;
+            //    GlobalData.optUserId = playerIdInfoDic[joinRoomS2C.optUserId].sit;
+            //    Debug.Log(string.Format("当前玩家的座位号：{0}，轮到{1}家出牌", GlobalData.sit, GlobalData.optUserId));
+            //}
+
             if (!isReport && GlobalData.LoginServer != "127.0.0.1")
             {
                 var settingC2S = new OnlineSettingC2S();
@@ -555,6 +621,7 @@ namespace Platform.Model.Battle
                 UpdatePlayerSitDic();
                 SendNotification(NotificationConstant.MEDI_BATTLEVIEW_UPDATESINGLEHEAD, exitPlayerInfoVO);
             }
+            SendNotification(NotificationConstant.MEDI_BATTLEVIEW_SHOWROOMRESULT);
         }
 
         /// <summary>
@@ -612,6 +679,7 @@ namespace Platform.Model.Battle
         /// <param PlayerName="bytes"></param>
         private void GameStartHandler(byte[] bytes)
         {
+            isGameStart = true;
             forbitActions = new List<ForbitActionVO>();
             _isForbit = true;
             isStart = true;
@@ -620,7 +688,7 @@ namespace Platform.Model.Battle
             var gameStartS2C = NetMgr.Instance.DeSerializes<GameStart_S2C>(bytes);
             startTime = gameStartS2C.startTime;
             tingCards.Clear();
-
+            score = gameStartS2C.score;
             #region  计算牌堆起始序号
             if (GlobalData.LoginServer != "127.0.0.1")
             {
@@ -740,6 +808,7 @@ namespace Platform.Model.Battle
                 playerInfoVos2C.Value.handCards.Clear();
                 playerInfoVos2C.Value.putCards.Clear();
                 playerInfoVos2C.Value.isBanker = playerInfoVos2C.Value.userId == gameStartS2C.bankerUserId;
+                playerInfoVos2C.Value.score = gameStartS2C.score;
                 if (playerInfoVos2C.Value.userId == playerInfoProxy.userID)
                 {
                     playerInfoVos2C.Value.handCards.AddRange(gameStartS2C.handCards);
@@ -767,9 +836,12 @@ namespace Platform.Model.Battle
                 InitHeapCardIndexs(GlobalData.CardWare.Length);
             }
 
+            GlobalData.sit = playerIdInfoDic[playerInfoProxy.userID].sit;
+            GlobalData.optUserId = playerIdInfoDic[gameStartS2C.bankerUserId].sit;
 
             SendNotification(NotificationConstant.MEDI_BATTLE_PLAYROTATE);
             SendNotification(NotificationConstant.MEDI_BATTLEVIEW_UPDATEALLHEAD);
+            //SendNotification(NotificationConstant.MEDI_BATTLEVIEW_UPDATESCORE);
             SendNotification(NotificationConstant.MEDI_BATTLE_SENDCARD);
         }
         
@@ -821,6 +893,10 @@ namespace Platform.Model.Battle
             }
             SetPlayerActTipS2C(curActTips);
             isSelfAction = GetPlayerActTipS2C().optUserId == playerInfoProxy.userID;
+
+            //GlobalData.sit = playerIdInfoDic[playerInfoProxy.UserInfo.UserID].sit;
+            //GlobalData.optUserId = playerIdInfoDic[playerActTipS2C.optUserId].sit;
+
             if (isStart)
                 SendNotification(NotificationConstant.MEDI_BATTLE_PLAYACTTIP);
             ClientAIMgr.Instance.AIPutCard();
@@ -888,6 +964,18 @@ namespace Platform.Model.Battle
                     break;
                 case PlayerActType.CHI:
                     ChiActHandler();
+                    break;
+                case PlayerActType.BAO_TING:
+                    BaoTingHandler();
+                    break;
+                case PlayerActType.BAO_JIA:
+                    BaoJiaHandler();
+                    break;
+                case PlayerActType.BAO_DIAO:
+                    BaoDiaoHandler();
+                    break;
+                case PlayerActType.CHENG_DIAO:
+                    ChenDiaoHandler();
                     break;
             }
         }
@@ -1355,6 +1443,7 @@ namespace Platform.Model.Battle
                     }
                 }               
             }
+            
         }
 
         /// <summary>

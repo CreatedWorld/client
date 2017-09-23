@@ -66,6 +66,11 @@ public class BattleAreaMediator : Mediator, IMediator
         list.Add(NotificationConstant.MEDI_BATTLE_PLAYACTTIP);
         list.Add(NotificationConstant.MEDI_BATTLE_PLAYROTATE);
         list.Add(NotificationConstant.MEDI_BATTLE_RESET);
+        list.Add(NotificationConstant.MEDI_ROOM_BAOTING);
+        list.Add(NotificationConstant.MEDI_ROOM_BAOJIA);
+        list.Add(NotificationConstant.MEDI_ROOM_BAODIAO);
+        list.Add(NotificationConstant.MEDI_ROOM_CHENDIAO);
+        list.Add(NotificationConstant.MEDI_BATTLEVIEW_SHOWROOMRESULT);
         return list;
     }
 
@@ -102,50 +107,55 @@ public class BattleAreaMediator : Mediator, IMediator
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAY_BACKANGANG:
                 PlayBackAnGang();
-                //View.masterView.ShowPlayActTip();
+                
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAYGETCARD:
                 PlayGetCard();
-                //View.masterView.ShowPlayActTip();
+                
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAYPASS:
                 PlayPass();
-                //View.masterView.ShowPlayActTip();
+                
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAYPENG:
                 PlayPeng();
-                //View.masterView.ShowPlayActTip();
+                
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAYCHI:
                 PlayChi();
-                //View.masterView.ShowPlayActTip();
+                
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAY_COMMONPENGGANG:
                 PlayCommonPengGang();
-                //View.masterView.ShowPlayActTip();
+                
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAY_BACKPENGGANG:
                 PlayBackPengGang();
-                //View.masterView.ShowPlayActTip();
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAYPUTCARD:
                 PlayPutCard();
-                //View.masterView.ShowPlayActTip();
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAYZHIGANG:
                 PlayZhiGang();
-                //View.masterView.ShowPlayActTip();
                 break;
             case NotificationConstant.MEDI_BATTLE_RESET:
                 PlayRestCard();
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAYHU:
                 PlayHu((bool)notification.Body);
-                //View.masterView.ShowPlayActTip();
+                SetCardColor(null,false);
                 break;
             case NotificationConstant.MEDI_BATTLEVIEW_SHOWMATCHRESULT:
                 SaveAllCard();
                 View.cardArrowIcon.SetActive(false);
+                break;
+            case NotificationConstant.MEDI_BATTLEVIEW_SHOWROOMRESULT:
+                foreach (BattleAreaItem areaItem in View.battleAreaItems)
+                {
+                    areaItem.SaveAllCard();
+                }
+                View.cardArrowIcon.SetActive(false);
+                ResourcesMgr.Instance.RecoveryAll(); 
                 break;
             case NotificationConstant.MEDI_BATTLEREA_STARTRECORD:
                 View.recorder.Recording();
@@ -172,11 +182,15 @@ public class BattleAreaMediator : Mediator, IMediator
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAYROTATE:
                 PlayRotate();
-                
+                break;
+            case NotificationConstant.MEDI_ROOM_BAOTING:
+            case NotificationConstant.MEDI_ROOM_BAODIAO:
+            case NotificationConstant.MEDI_ROOM_BAOJIA:
+            case NotificationConstant.MEDI_ROOM_CHENDIAO:
+                SetCardColor(notification.Body as List<int>, true);
                 break;
         }
     }
-
     /// <summary>
     /// 初始化界面显示
     /// </summary>
@@ -187,7 +201,7 @@ public class BattleAreaMediator : Mediator, IMediator
             var selfInfoVO = battleProxy.playerIdInfoDic[playerInfoProxy.userID];
             for (int i = 0; i < View.battleAreaItems.Count; i++)
             {
-                View.battleAreaItems[i].data = battleProxy.playerSitInfoDic[GlobalData.GetNextSit(selfInfoVO.sit, i)];
+                View.battleAreaItems[i].data = battleProxy.playerSitInfoDic[selfInfoVO.sit];//GlobalData.GetNextSit(selfInfoVO.sit, i)
             }
             //View.masterView.UpdateMasterInfo(true);
             //View.masterView.ShowPlayActTip();
@@ -266,7 +280,27 @@ public class BattleAreaMediator : Mediator, IMediator
         battleProxy.SetIsForbit(false);
         SendNotification(NotificationConstant.MEDI_BATTLE_PLAYACTTIP);
     }
-
+    /// <summary>
+    /// 手牌 变灰-正常
+    /// </summary>
+    /// <param name="card"></param>
+    private void SetCardColor(List<int> card,bool isGray)
+    {
+        var selfInfoVO = battleProxy.playerIdInfoDic[playerInfoProxy.userID];
+        var actPlayerInfoVO = battleProxy.playerIdInfoDic[battleProxy.GetPlayerActS2C().userId];
+        var actIndex = (actPlayerInfoVO.sit - selfInfoVO.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
+        
+        if (isGray)
+        {
+            View.battleAreaItems[actIndex].SetHandCardsGray(card, false);
+            PlayerPrefs.SetInt(battleProxy.GetPlayerActS2C().userId.ToString(), 1);
+        }
+        else
+        {
+            View.battleAreaItems[actIndex].RecoveryHandCardsColor();
+            PlayerPrefs.SetInt(battleProxy.GetPlayerActS2C().userId.ToString(), 0);
+        }
+    }
     /// <summary>
     /// 播放直接暗杠动画
     /// </summary>
@@ -382,7 +416,16 @@ public class BattleAreaMediator : Mediator, IMediator
         var selfInfoVO = battleProxy.playerIdInfoDic[playerInfoProxy.userID];
         var actPlayerInfoVO = battleProxy.playerIdInfoDic[battleProxy.GetPlayerActS2C().userId];
         var actIndex = (actPlayerInfoVO.sit - selfInfoVO.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
-        GameMgr.Instance.StartCoroutine(View.battleAreaItems[actIndex].PlayPutCard());        
+        Debug.Log("selfInfoVO.sit = " + selfInfoVO.sit + "  actPlayerInfoVO.sit = "+ actPlayerInfoVO.sit);
+        //if (PlayerPrefs.GetInt(battleProxy.GetPlayerActS2C().userId.ToString()) == 1)
+        //{
+        //    List<int> list = new List<int>();
+        //    list.Add(-1);
+         //   View.battleAreaItems[actIndex].SetHandCardsGray(list, true);
+        //}
+        GameMgr.Instance.StartCoroutine(View.battleAreaItems[actIndex].PlayPutCard());
+
+
     }
 
     /// <summary>
@@ -462,7 +505,7 @@ public class BattleAreaMediator : Mediator, IMediator
         }
         else if (areaItem.dir == AreaDir.UP)
         {
-            View.cardArrowIcon.transform.localEulerAngles = new Vector3(118, 0, 0);
+            View.cardArrowIcon.transform.localEulerAngles = new Vector3(180, 0, 0);
         }
         View.cardArrowIcon.transform.localScale = Vector3.one;
         View.cardArrowIcon.transform.DOKill();

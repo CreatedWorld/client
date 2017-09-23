@@ -4,6 +4,7 @@ using Platform.Net;
 using Platform.Utils;
 using Platform.Model.Battle;
 using System.Threading;
+using System.Collections;
 ///
 ///                             _ooOoo_
 ///                            o8888888o
@@ -77,7 +78,10 @@ public class GameMgr : MonoBehaviour
     /// gui样式
     /// </summary>
     private GUIStyle style;
-
+    /// <summary>
+    /// ping值
+    /// </summary>
+    private int pingText;
     public GameMgr()
     {
     }
@@ -93,22 +97,37 @@ public class GameMgr : MonoBehaviour
     }
     void Start()
     {
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = 40;
         ApplicationFacade.Instance.SendNotification(NotificationConstant.COMM_GAMEMGR_INIT);
         gameObject.AddComponent<ClientAIMgr>();
         if (GlobalData.sdkPlatform == SDKPlatform.ANDROID)
         {
             AndroidSdkInterface.HidenSplash();
         }
+        //StartCoroutine(PingServer());
     }
 
     void OnGUI()
     {
         GUI.Label(new Rect(0, Screen.height - 30, 200, 50), GlobalData.VERSIONS, style);
+        //GUI.Label(new Rect(Screen.width - 200, Screen.height - 30, 200, 50), pingText.ToString(), style);
         if (UIManager.Instance.needSaveScreen)
         {
             UIManager.Instance.SaveScreenTexture();
         }
+    }
+
+    IEnumerator PingServer()
+    {
+        Ping ping = new Ping(GlobalData.LoginServer);
+        while (!ping.isDone)
+        {
+            yield return null;
+        }
+        pingText = ping.time;
+        Debug.Log("pingText:" + pingText);
+        yield return new WaitForSeconds(2);
+        StartCoroutine(PingServer());
     }
 
     /// <summary>

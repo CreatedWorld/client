@@ -34,6 +34,10 @@ public class BattleViewMediator : Mediator, IMediator
     /// </summary>
     private int sysTimeId;
     /// <summary>
+    /// 用户id
+    /// </summary>
+    private int userReadyId;
+    /// <summary>
     /// 点击后是否展开
     /// </summary>
     private bool isExpand = false;
@@ -76,6 +80,12 @@ public class BattleViewMediator : Mediator, IMediator
         list.Add(NotificationConstant.MEDI_BATTLEVIEW_INITPLAYERCARDS);
         list.Add(NotificationConstant.TING_UPDATE);
         list.Add(NotificationConstant.MEDI_BATTLEVIEW_UPDATEVOLUME);
+        list.Add(NotificationConstant.MEDI_ROOM_TOUHE);
+        list.Add(NotificationConstant.MEDI_ROOM_HIDETOUHE);
+        list.Add(NotificationConstant.MEDI_ROOM_BAOTING);
+        list.Add(NotificationConstant.MEDI_ROOM_BAOJIA);
+        list.Add(NotificationConstant.MEDI_ROOM_BAODIAO);
+        list.Add(NotificationConstant.MEDI_ROOM_CHENDIAO);
         return list;
     }
 
@@ -108,6 +118,9 @@ public class BattleViewMediator : Mediator, IMediator
         voideTrigger.triggers.Add(onDown);
         voideTrigger.triggers.Add(onUp);
 
+        View.TouHeBtn.onClick.AddListener(OnClickTouHeBtn);
+        View.PassBtn.onClick.AddListener(OnClickPassBtn);
+        //View.BaoTingBtn.onClick.AddListener(OnClickBaoTing);
         Timer.Instance.AddTimer(0, 1, 0, InitView);
     }
 
@@ -123,6 +136,9 @@ public class BattleViewMediator : Mediator, IMediator
         View.settingBtn.onClick.RemoveListener(OnSettingClick);
         View.inviteBtn.onClick.RemoveListener(OnInviteClick);
         View.ruleInfoBtn.onClick.RemoveListener(OnRuleInfoClick);
+        View.TouHeBtn.onClick.RemoveListener(OnClickTouHeBtn);
+        View.PassBtn.onClick.RemoveListener(OnClickPassBtn);
+
         Timer.Instance.CancelTimer(sysTimeId);
     }
 
@@ -216,9 +232,85 @@ public class BattleViewMediator : Mediator, IMediator
             case NotificationConstant.TING_UPDATE:
                 UpdateTingIcon();
                 break;
+            case NotificationConstant.MEDI_ROOM_TOUHE:
+                ShowTouHe();
+                break;
+            case NotificationConstant.MEDI_ROOM_HIDETOUHE:
+                HideTouHe((int)notification.Body);
+                break;
+            case NotificationConstant.MEDI_ROOM_BAOTING:
+                PlayAct(PlayerActType.BAO_TING);
+                break;
+            case NotificationConstant.MEDI_ROOM_BAODIAO:
+                PlayAct(PlayerActType.BAO_DIAO);
+                break;
+            case NotificationConstant.MEDI_ROOM_CHENDIAO:
+                PlayAct(PlayerActType.CHENG_DIAO);
+                break;
+            case NotificationConstant.MEDI_ROOM_BAOJIA:
+                PlayAct(PlayerActType.BAO_JIA);
+                break;
         }
     }
-
+    /// <summary>
+    /// 隐藏报听
+    /// </summary>
+    public void HideBaoTing(List<int> card)
+    {
+        card.ForEach(o=> { Debug.Log("hidebaoting :"+o); });
+        //View.BaoTingBtn.gameObject.SetActive(false);
+    }
+    /// <summary>
+    /// 点击报听
+    /// </summary>
+    private void OnClickBaoTing()
+    {
+        baoTingC2S baotingC2S = new baoTingC2S();
+        NetMgr.Instance.SendBuff(SocketType.BATTLE, MsgNoC2S.C2S_ROOM_BAOTING.GetHashCode(), 0, baotingC2S);
+    }
+    /// <summary>
+    /// 显示投河按钮
+    /// </summary>
+    private void ShowTouHe()
+    {
+        View.TouHeBtn.gameObject.SetActive(true);
+        View.PassBtn.gameObject.SetActive(true);
+    }
+    /// <summary>
+    /// 隐藏投河按钮
+    /// </summary>
+    private void HideTouHe(int id)
+    {
+        Debug.Log("userReadyId = "+ userReadyId);
+        if (id == userReadyId)
+        {
+            View.TouHeBtn.gameObject.SetActive(false);
+            View.PassBtn.gameObject.SetActive(false);
+            //View.touheIco.SetActive(true);
+        }
+        var selfInfoVO = battleProxy.playerIdInfoDic[playerInfoProxy.userID];
+        var actPlayerInfoVO = battleProxy.playerIdInfoDic[id];//battleProxy.GetPlayerActS2C().userId
+        var actIndex = (actPlayerInfoVO.sit - selfInfoVO.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
+        View.headItemList[actIndex].GetComponent<HeadItem>().touheObj.SetActive(true);
+    }
+    /// <summary>
+    /// 点击投河
+    /// </summary>
+    private void OnClickTouHeBtn()
+    {
+        var touheC2S = new touHeC2S();
+        touheC2S.touHeCode = 0;
+        NetMgr.Instance.SendBuff(SocketType.BATTLE, MsgNoC2S.C2S_ROOM_TOU_HE.GetHashCode(), 0, touheC2S);
+    }
+    /// <summary>
+    /// 发送过点击
+    /// </summary>
+    private void OnClickPassBtn()
+    {
+        touHeC2S touheC2S = new touHeC2S();
+        touheC2S.touHeCode = 1;
+        NetMgr.Instance.SendBuff(SocketType.BATTLE, MsgNoC2S.C2S_ROOM_TOU_HE.GetHashCode(), 0, touheC2S);
+    }
     /// <summary>
     /// 初始化界面显示
     /// </summary>
@@ -272,7 +364,9 @@ public class BattleViewMediator : Mediator, IMediator
                     View.ruleText2.text = string.Format("【长跑10】");
                 }
             }
-
+        }
+        if(battleProxy.isGameStart)
+        {
             SendNotification(NotificationConstant.MEDI_BATTLE_PLAYROTATE);
             //SendNotification(NotificationConstant.MEDI_BATTLEVIEW_UPDATEALLHEAD);
             SendNotification(NotificationConstant.MEDI_BATTLE_SENDCARD);
@@ -354,6 +448,7 @@ public class BattleViewMediator : Mediator, IMediator
     private void UpdateSingleHeadItem(PlayerInfoVOS2C updatePlayInfoVOS2C)
     {
         var selfInfoVO = battleProxy.playerIdInfoDic[playerInfoProxy.userID];
+        userReadyId = playerInfoProxy.userID;
         var updateHeadIndex = (updatePlayInfoVOS2C.sit - selfInfoVO.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
         if (battleProxy.playerIdInfoDic.ContainsKey(updatePlayInfoVOS2C.userId))
         {
@@ -378,13 +473,16 @@ public class BattleViewMediator : Mediator, IMediator
         UpdateSystemTime();
         var hallProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.HALL_PROXY) as HallProxy;
         View.roomIdTxt.text = hallProxy.HallInfo.roomCode;
-        if (hallProxy.HallInfo.innings.GetHashCode() == 8)
+        if (battleProxy.isStart)
         {
-            View.roundTxt.text = string.Format("{0}/{1}", battleProxy.curInnings, "8");
-        }
-        else
-        {
-            View.roundTxt.text =  "一锅";
+            if (hallProxy.HallInfo.innings.GetHashCode() == 8)
+            {
+                View.roundTxt.text = string.Format("{0}/{1}", battleProxy.curInnings, "8");
+            }
+            else
+            {
+                View.roundTxt.text = "一锅";
+            } 
         }
        
         View.leftCardNumTxt.text = string.Format("剩 {0} 张", battleProxy.leftCard); 
@@ -471,7 +569,7 @@ public class BattleViewMediator : Mediator, IMediator
         {
             return;
         }
-        if (tipPlayVO.optUserId == playerInfoProxy.userID)
+        if (tipPlayVO.optUserId == playerInfoProxy.userID)        
         {
             View.operateView.ShowPlayActTip();
         }
@@ -493,10 +591,21 @@ public class BattleViewMediator : Mediator, IMediator
         if (actIndex == 0)
         {
             View.operateView.HidenPlayActTip();
+            View.headItemList[actIndex].GetComponent<HeadItem>().BaoIcon(playerAct);
         }
         else if (playerAct != PlayerActType.PASS && !battleProxy.huTypes.Contains(playerAct))
         {
             View.operateView.HidenPlayActTip();
+        }
+        if (playerAct == PlayerActType.CHI_HU || playerAct == PlayerActType.QIANG_AN_GANG_HU || 
+            playerAct == PlayerActType.QIANG_PENG_GANG_HU || playerAct == PlayerActType.QIANG_ZHI_GANG_HU ||
+            playerAct == PlayerActType.SELF_HU)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                View.headItemList[i].GetComponent<HeadItem>().baoImg.gameObject.SetActive(false); 
+                
+            }
         }
     }
 

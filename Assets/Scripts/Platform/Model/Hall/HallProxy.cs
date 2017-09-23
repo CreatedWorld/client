@@ -550,12 +550,12 @@ public class HallProxy : Proxy, IProxy
         hallRoomListItem = getRoomListInfo.hallRoomInfo;
 
         ArrayList roomArr = new ArrayList();
-        Debug.Log("hallRoomListItem = "+ hallRoomListItem.Count);
+        //Debug.Log("hallRoomListItem = "+ hallRoomListItem.Count);
         if (hallRoomListItem != null && HallRoomListView.roomlistTable != null)
         {
             roomArr.AddRange(hallRoomListItem);
             HallRoomListView.roomlistTable.DataProvider = roomArr;
-            Debug.Log("Refresh hallroomlistview...");
+            //Debug.Log("Refresh hallroomlistview...");
             
         }
 

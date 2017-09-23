@@ -90,12 +90,12 @@
     <scale>1,1,1</scale>
   </rCard_GetCard>
   <rCard_SendCard>
-    <position>-3.41,4.65,0</position>
+    <position>-3.43,3.32,0</position>
     <rotation>0,0,3.415094E-06</rotation>
     <scale>1,1,1</scale>
   </rCard_SendCard>
   <rPengGangCard>
-    <position>-3.43,0.48,-10.36</position>
+    <position>-3.43,0.48,-9.22</position>
     <rotation>0,270,180</rotation>
     <scale>2,2,2</scale>
   </rPengGangCard>
@@ -125,7 +125,7 @@
     <scale>1,1,1</scale>
   </rPutCard_PutCard2>
   <rPutCard_PutCard3>
-    <position>0.001,-0.001,-0.725</position>
+    <position>0,0,-0.76</position>
     <rotation>0,0,1.707547E-06</rotation>
     <scale>1,1,1</scale>
   </rPutCard_PutCard3>
@@ -170,8 +170,8 @@
     <scale>1,1,1</scale>
   </uCard_SendCard>
   <uPengGangCard>
-    <position>8.51,0.43,-1.97</position>
-    <rotation>0,0,180</rotation>
+    <position>10.35,0.43,-1.97</position>
+    <rotation>355.9634,-3.826157E-14,180</rotation>
     <scale>2,2,2</scale>
   </uPengGangCard>
   <uPengGangCard_PengGangCard1>

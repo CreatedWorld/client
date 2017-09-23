@@ -70,8 +70,11 @@ namespace Platform.Net
         S2C_SetCardS2C = 93001,//设置牌面返回(麻将)
         S2C_GetAllCardS2C = 93002,//返回当前牌桌内所有牌的集合，包括了每个玩家的手牌，剩余牌堆中的牌
         S2C_CoreBattle_GameStart = 93003,//游戏开始
-
         S2C_Hall_Get_HallRoomList = 2027,//服务器返回大厅显示的房间列表
+        S2C_ROOM_TOU_HE_TIP = 4067 ,    //投河提示
+        S2C_BAOTING = 4063,//报听
+        S2C_ROOM_TOU_HE = 4062          //点击投河返回
+
     }
 
 
@@ -109,6 +112,13 @@ namespace Platform.Net
         C2S_ROOM_PASS = 4012,//guo
         C2S_ROOM_PENG = 4013,//peng
         C2S_ROOM_CHI = 4014,//chi
+
+        C2S_ROOM_TOU_HE = 4062,//投河
+        C2S_ROOM_BAOTING = 4063,//报听
+        C2S_ROOM_BAOJIA = 4064,//报夹
+        C2S_ROOM_BAODIAO = 4065,//报吊
+        C2S_ROOM_CHENDIAO = 4066,//抻吊
+
         C2S_ROOM_COMMON_AN_GANG = 4020,//普通暗杠
         C2S_ROOM_BACK_AN_GANG = 4021,//回头暗杠
         C2S_ROOM_ZHI_GANG = 4022,//点击直杠

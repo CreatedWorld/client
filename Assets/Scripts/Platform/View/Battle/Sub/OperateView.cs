@@ -5,6 +5,7 @@ using Platform.Utils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 /// <summary>
@@ -35,6 +36,10 @@ public class OperateView : MonoBehaviour {
         var actionBtn3 = transform.Find("ActionBtnContainer3/ActionBtn3").GetComponent<Button>();
         var actionBtn4 = transform.Find("ActionBtnContainer4/ActionBtn4").GetComponent<Button>();
         var actionBtn5 = transform.Find("ActionBtnContainer5/ActionBtn5").GetComponent<Button>();
+        var actionBtn6 = transform.Find("ActionBtnContainer6/ActionBtn6").GetComponent<Button>();
+        var actionBtn7 = transform.Find("ActionBtnContainer7/ActionBtn7").GetComponent<Button>();
+        var actionBtn8 = transform.Find("ActionBtnContainer8/ActionBtn8").GetComponent<Button>();
+        var actionBtn9 = transform.Find("ActionBtnContainer9/ActionBtn9").GetComponent<Button>();
         actionBtns = new List<Button>();
         actionBtnContainers = new List<RectTransform>();
         actionBtns.Add(actionBtn1);
@@ -42,16 +47,28 @@ public class OperateView : MonoBehaviour {
         actionBtns.Add(actionBtn3);
         actionBtns.Add(actionBtn4);
         actionBtns.Add(actionBtn5);
+        actionBtns.Add(actionBtn6);
+        actionBtns.Add(actionBtn7);
+        actionBtns.Add(actionBtn8);
+        actionBtns.Add(actionBtn9);
         actionBtns[0].onClick.AddListener(() => { ActHandler(0); });
         actionBtns[1].onClick.AddListener(() => { ActHandler(1); });
         actionBtns[2].onClick.AddListener(() => { ActHandler(2); });
         actionBtns[3].onClick.AddListener(() => { ActHandler(3); });
         actionBtns[4].onClick.AddListener(() => { ActHandler(4); });
+        actionBtns[5].onClick.AddListener(() => { ActHandler(5); });
+        actionBtns[6].onClick.AddListener(() => { ActHandler(6); });
+        actionBtns[7].onClick.AddListener(() => { ActHandler(7); });
+        actionBtns[8].onClick.AddListener(() => { ActHandler(8); });
         actionBtnContainers.Add(transform.Find("ActionBtnContainer1").GetComponent<RectTransform>());
         actionBtnContainers.Add(transform.Find("ActionBtnContainer2").GetComponent<RectTransform>());
         actionBtnContainers.Add(transform.Find("ActionBtnContainer3").GetComponent<RectTransform>());
         actionBtnContainers.Add(transform.Find("ActionBtnContainer4").GetComponent<RectTransform>());
         actionBtnContainers.Add(transform.Find("ActionBtnContainer5").GetComponent<RectTransform>());
+        actionBtnContainers.Add(transform.Find("ActionBtnContainer6").GetComponent<RectTransform>());
+        actionBtnContainers.Add(transform.Find("ActionBtnContainer7").GetComponent<RectTransform>());
+        actionBtnContainers.Add(transform.Find("ActionBtnContainer8").GetComponent<RectTransform>());
+        actionBtnContainers.Add(transform.Find("ActionBtnContainer9").GetComponent<RectTransform>());
         tingIcon = transform.Find("TingIcon").gameObject;
         UpdateTingIcon();
     }
@@ -126,6 +143,10 @@ public class OperateView : MonoBehaviour {
     /// </summary>
     private List<List<int>> chiSelectArr;
     /// <summary>
+    /// 抻吊的牌
+    /// </summary>
+    private List<int> chenDiaoSelectArr;
+    /// <summary>
     /// 显示玩家操作提示
     /// </summary>
     public void ShowPlayActTip()
@@ -158,15 +179,29 @@ public class OperateView : MonoBehaviour {
                 case PlayerActType.CHI_HU:
                     operateType = OperateType.HU;
                     break;
-                case PlayerActType.PASS:
-                    operateType = OperateType.PASS;
-                    break;
+                
                 case PlayerActType.PENG:
                     operateType = OperateType.PENG;
                     break;
                 case PlayerActType.CHI:
                     operateType = OperateType.CHI;
                     chiSelectArr = BattleAreaUtil.GetCanChiArr(battleProxy.GetPlayerActTipS2C().actCards[i]);
+                    break;
+                case PlayerActType.BAO_TING:
+                    operateType = OperateType.BAOTING;
+                    break;
+                case PlayerActType.BAO_DIAO:
+                    operateType = OperateType.BAODIAO;
+                    break;
+                case PlayerActType.CHENG_DIAO:
+                    operateType = OperateType.CHENDIAO;
+                    chenDiaoSelectArr = battleProxy.GetPlayerActTipS2C().chenDiaoCards;
+                    break;
+                case PlayerActType.BAO_JIA:
+                    operateType = OperateType.BAOJIA;
+                    break;
+                case PlayerActType.PASS:
+                    operateType = OperateType.PASS;
                     break;
             }
             if (operates.IndexOf(operateType) == -1)
@@ -177,6 +212,11 @@ public class OperateView : MonoBehaviour {
             }
             operateCards[operateType].Add(battleProxy.GetPlayerActTipS2C().actCards[i]);
             operateActs[operateType].Add(actType);
+            //if (operateType == OperateType.CHENDIAO)
+            //{
+            //    battleProxy.GetPlayerActTipS2C().chenDiaoCards.ForEach(o=> { operateCards[operateType].Add(o); });
+            //    operateActs[operateType].Add(actType);
+            //}
         }
         for (int i = 0; i < actionBtns.Count; i++)
         {
@@ -186,6 +226,10 @@ public class OperateView : MonoBehaviour {
                 continue;
             }
             actionBtnContainers[i].gameObject.SetActive(true);
+            foreach (Transform item in actionBtns[i].gameObject.transform)
+            {
+                Destroy(item.gameObject);
+            }
             switch (operates[i])
             {
                 case OperateType.GANG:
@@ -202,6 +246,18 @@ public class OperateView : MonoBehaviour {
                     break;                                                                                   
                 case OperateType.CHI:                                                                         
                     actionBtns[i].gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/91city_chipenggang/ActionChi");
+                    break;
+                case OperateType.BAOTING:
+                    actionBtns[i].gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/91city_chipenggang/ActionBaoTing");
+                    break;
+                case OperateType.BAODIAO:
+                    actionBtns[i].gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/91city_chipenggang/ActionBaoDiao");
+                    break;
+                case OperateType.BAOJIA:
+                    actionBtns[i].gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/91city_chipenggang/ActionBaoJia");
+                    break;
+                case OperateType.CHENDIAO:
+                    actionBtns[i].gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/91city_chipenggang/ActionChenDiao");
                     break;
             }
             actionBtns[i].gameObject.GetComponent<Animator>().Play("ShowActBtn" + (i + 1), 0, 0);
@@ -241,6 +297,9 @@ public class OperateView : MonoBehaviour {
             {
                 onChiClick(PlayerActType.CHI, chiSelectArr[0], btnIndex);
             }
+        }else if (operateType == OperateType.CHENDIAO)
+        {
+            onChenDiaoClick(battleProxy.GetPlayerActTipS2C().chenDiaoCards,btnIndex);
         }
         else
         {
@@ -348,8 +407,20 @@ public class OperateView : MonoBehaviour {
             case PlayerActType.PENG:
                 onPengClick(act, card);
                 break;
+            case PlayerActType.BAO_TING:
+                onBaoTingClick();
+                break;
+            case PlayerActType.BAO_JIA:
+                onBaoJiaClick();
+                break;
+            case PlayerActType.BAO_DIAO:
+                onBaoDiaoClick();
+                break;
+            //case PlayerActType.CHENG_DIAO:
+            //    onChenDiaoClick();
+            //    break;
         }
-        ClearOperateCardBtns();
+        //ClearOperateCardBtns();
     }
 
     /// <summary>
@@ -372,8 +443,61 @@ public class OperateView : MonoBehaviour {
     {
         foreach (RectTransform actionBtnContainer in actionBtnContainers)
         {
-            actionBtnContainer.gameObject.SetActive(false);
+            actionBtnContainer.gameObject.SetActive(false); 
         }
+    }
+    /// <summary>
+    /// 点击报听
+    /// </summary>
+    public void onBaoTingClick()
+    {
+        baoTingC2S baotingC2S = new baoTingC2S();
+        NetMgr.Instance.SendBuff(SocketType.BATTLE, MsgNoC2S.C2S_ROOM_BAOTING.GetHashCode(), 0, baotingC2S);
+    }
+    /// <summary>
+    /// 点击报夹
+    /// </summary>
+    public void onBaoJiaClick()
+    {
+        baoJiaC2S baojiaC2S = new baoJiaC2S();
+        NetMgr.Instance.SendBuff(SocketType.BATTLE, MsgNoC2S.C2S_ROOM_BAOJIA.GetHashCode(), 0, baojiaC2S);
+    }
+    /// <summary>
+    /// 点击报吊
+    /// </summary>
+    public void onBaoDiaoClick()
+    {
+        baoDiaoC2S baodiaoC2S = new baoDiaoC2S();
+        NetMgr.Instance.SendBuff(SocketType.BATTLE, MsgNoC2S.C2S_ROOM_BAODIAO.GetHashCode(), 0, baodiaoC2S);
+    }
+    /// <summary>
+    /// 点击抻吊
+    /// </summary>
+    public void onChenDiaoClick(List<int> cards, int btnIndex)
+    {
+        var chiSelectNum = cards.Count;
+        var clickBtn = actionBtns[btnIndex];
+        float startX = -(chiSelectNum * 157 + (chiSelectNum - 1) * 20) / 2;
+
+        for (int i = 0; i < cards.Count; i++)
+        {
+            var cardGameObject = ResourcesMgr.Instance.GetCardBtnFromPool(cards[i]);
+            int x = cards[i];
+            cardGameObject.GetComponent<Button>().onClick.AddListener(()=> { SendChenDiaoC2S(x); });
+           
+            cardGameObject.transform.SetParent(clickBtn.transform);
+            cardGameObject.transform.localScale = Vector3.one;
+            cardGameObject.transform.localPosition = new Vector3(startX + 38, 121, 0);
+            startX += 78;
+        }
+        
+    }
+    private void SendChenDiaoC2S(int card)
+    {
+        Debug.Log(card);
+        chenDiaoC2S baodiaoC2S = new chenDiaoC2S();
+        baodiaoC2S.chenDiaoCards = card;
+        NetMgr.Instance.SendBuff(SocketType.BATTLE, MsgNoC2S.C2S_ROOM_CHENDIAO.GetHashCode(), 0, baodiaoC2S);
     }
 
     /// <summary>

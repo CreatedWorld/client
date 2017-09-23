@@ -48,8 +48,8 @@ public class HallMediator : Mediator, IMediator
 		View.HallView = (HallView)UIManager.Instance.ShowUI (UIViewID.HALL_VIEW);
 		View.TopView = (TopMenuView)UIManager.Instance.ShowUI (UIViewID.TOPMENU_VIEW);
 		View.HallRoomListView = (HallRoomListView)UIManager.Instance.ShowUI (UIViewID.HALLROOMLIST_VIEW);
-		View.MiddleView = (MiddleMenuView)UIManager.Instance.ShowUI (UIViewID.MIDDLEMENU_VIEW);
 		View.BottomView = (BottomMenuView)UIManager.Instance.ShowUI (UIViewID.BOTTOMMENU_VIEW);
+		View.MiddleView = (MiddleMenuView)UIManager.Instance.ShowUI (UIViewID.MIDDLEMENU_VIEW);
 		TopMenuAddEvent ();
 		MiddleMenuAddEvent ();
 		BottomMenuAddEvent ();

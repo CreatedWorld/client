@@ -186,6 +186,21 @@ namespace Platform.Model
       get { return _playerNum; }
       set { _playerNum = value; }
     }
+    private readonly global::System.Collections.Generic.List<int> _dices = new global::System.Collections.Generic.List<int>();
+    [global::ProtoBuf.ProtoMember(18, Name=@"dices", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<int> dices
+    {
+      get { return _dices; }
+    }
+  
+    private int _optUserId = default(int);
+    [global::ProtoBuf.ProtoMember(19, IsRequired = false, Name=@"optUserId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int optUserId
+    {
+      get { return _optUserId; }
+      set { _optUserId = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -458,6 +473,21 @@ namespace Platform.Model
       get { return _isOnline; }
       set { _isOnline = value; }
     }
+    private readonly global::System.Collections.Generic.List<Platform.Model.PengGangCardVO> _chiCards = new global::System.Collections.Generic.List<Platform.Model.PengGangCardVO>();
+    [global::ProtoBuf.ProtoMember(17, Name=@"chiCards", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<Platform.Model.PengGangCardVO> chiCards
+    {
+      get { return _chiCards; }
+    }
+  
+    private bool _isBaoTing = default(bool);
+    [global::ProtoBuf.ProtoMember(18, IsRequired = false, Name=@"isBaoTing", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(default(bool))]
+    public bool isBaoTing
+    {
+      get { return _isBaoTing; }
+      set { _isBaoTing = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -544,6 +574,13 @@ namespace Platform.Model
       get { return _targetUserId; }
       set { _targetUserId = value; }
     }
+    private readonly global::System.Collections.Generic.List<int> _chenDiaoCards = new global::System.Collections.Generic.List<int>();
+    [global::ProtoBuf.ProtoMember(8, Name=@"chenDiaoCards", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<int> chenDiaoCards
+    {
+      get { return _chenDiaoCards; }
+    }
+  
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -598,6 +635,13 @@ namespace Platform.Model
       get { return _targetUserId; }
       set { _targetUserId = value; }
     }
+    private readonly global::System.Collections.Generic.List<int> _baoCards = new global::System.Collections.Generic.List<int>();
+    [global::ProtoBuf.ProtoMember(7, Name=@"baoCards", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<int> baoCards
+    {
+      get { return _baoCards; }
+    }
+  
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -937,6 +981,219 @@ namespace Platform.Model
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"touHeTipS2C")]
+  public partial class touHeTipS2C : global::ProtoBuf.IExtensible
+  {
+    public touHeTipS2C() {}
+    
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"touHeC2S")]
+  public partial class touHeC2S : global::ProtoBuf.IExtensible
+  {
+    public touHeC2S() {}
+    
+    private int _touHeCode;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"touHeCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int touHeCode
+    {
+      get { return _touHeCode; }
+      set { _touHeCode = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"touHeS2C")]
+  public partial class touHeS2C : global::ProtoBuf.IExtensible
+  {
+    public touHeS2C() {}
+    
+    private int _userId;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"userId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int userId
+    {
+      get { return _userId; }
+      set { _userId = value; }
+    }
+    private int _touHeCode;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"touHeCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int touHeCode
+    {
+      get { return _touHeCode; }
+      set { _touHeCode = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"baoTingTipS2C")]
+  public partial class baoTingTipS2C : global::ProtoBuf.IExtensible
+  {
+    public baoTingTipS2C() {}
+    
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"baoJiaTipS2C")]
+  public partial class baoJiaTipS2C : global::ProtoBuf.IExtensible
+  {
+    public baoJiaTipS2C() {}
+    
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"baoDiaoTipS2C")]
+  public partial class baoDiaoTipS2C : global::ProtoBuf.IExtensible
+  {
+    public baoDiaoTipS2C() {}
+    
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"chenDiaoTipS2C")]
+  public partial class chenDiaoTipS2C : global::ProtoBuf.IExtensible
+  {
+    public chenDiaoTipS2C() {}
+    
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"baoTingC2S")]
+  public partial class baoTingC2S : global::ProtoBuf.IExtensible
+  {
+    public baoTingC2S() {}
+    
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"baoTingS2C")]
+  public partial class baoTingS2C : global::ProtoBuf.IExtensible
+  {
+    public baoTingS2C() {}
+    
+    private readonly global::System.Collections.Generic.List<int> _mahjongCode = new global::System.Collections.Generic.List<int>();
+    [global::ProtoBuf.ProtoMember(1, Name=@"mahjongCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<int> mahjongCode
+    {
+      get { return _mahjongCode; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"baoJiaC2S")]
+  public partial class baoJiaC2S : global::ProtoBuf.IExtensible
+  {
+    public baoJiaC2S() {}
+    
+    private int _baoJiaCode;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"baoJiaCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int baoJiaCode
+    {
+      get { return _baoJiaCode; }
+      set { _baoJiaCode = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"baoJiaS2C")]
+  public partial class baoJiaS2C : global::ProtoBuf.IExtensible
+  {
+    public baoJiaS2C() {}
+    
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"baoDiaoC2S")]
+  public partial class baoDiaoC2S : global::ProtoBuf.IExtensible
+  {
+    public baoDiaoC2S() {}
+    
+    private int _baoDiaoCode;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"baoDiaoCode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int baoDiaoCode
+    {
+      get { return _baoDiaoCode; }
+      set { _baoDiaoCode = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"baoDiaoS2C")]
+  public partial class baoDiaoS2C : global::ProtoBuf.IExtensible
+  {
+    public baoDiaoS2C() {}
+    
+    private int _userId;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"userId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int userId
+    {
+      get { return _userId; }
+      set { _userId = value; }
+    }
+    private int _code;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"code", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int code
+    {
+      get { return _code; }
+      set { _code = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"chenDiaoC2S")]
+  public partial class chenDiaoC2S : global::ProtoBuf.IExtensible
+  {
+    public chenDiaoC2S() {}
+    
+    private int _chenDiaoCards;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"chenDiaoCards", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int chenDiaoCards
+    {
+      get { return _chenDiaoCards; }
+      set { _chenDiaoCards = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"chenDiaoS2C")]
+  public partial class chenDiaoS2C : global::ProtoBuf.IExtensible
+  {
+    public chenDiaoS2C() {}
+    
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"PushOnlineSettingS2C")]
   public partial class PushOnlineSettingS2C : global::ProtoBuf.IExtensible
   {
@@ -1073,6 +1330,14 @@ namespace Platform.Model
     {
       get { return _startTime; }
       set { _startTime = value; }
+    }
+    private int _score = default(int);
+    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"score", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(int))]
+    public int score
+    {
+      get { return _score; }
+      set { _score = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -1583,7 +1848,22 @@ namespace Platform.Model
       QIANG_PENG_GANG_HU = 14,
             
       [global::ProtoBuf.ProtoEnum(Name=@"CHI_HU", Value=15)]
-      CHI_HU = 15
+      CHI_HU = 15,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"TOU_HE", Value=16)]
+      TOU_HE = 16,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"BAO_TING", Value=17)]
+      BAO_TING = 17,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"BAO_JIA", Value=18)]
+      BAO_JIA = 18,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"BAO_DIAO", Value=19)]
+      BAO_DIAO = 19,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"CHENG_DIAO", Value=20)]
+      CHENG_DIAO = 20
     }
   
 }

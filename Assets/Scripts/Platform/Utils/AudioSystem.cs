@@ -73,6 +73,7 @@ public class AudioSystem : MonoBehaviour
         }
         curBgmUrl = bgmUrl;
         AudioClip clip = GetAudioClipFormPool(bgmUrl);
+        
         bgmSource.clip = clip;
         bgmSource.Play();
     }

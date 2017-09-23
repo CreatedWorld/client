@@ -6,6 +6,7 @@ using DG.Tweening;
 using Platform.Utils;
 using UnityEngine;
 using Platform.Net;
+using System.Linq;
 
 /// <summary>
 /// 单个战区位置
@@ -783,7 +784,7 @@ public class BattleAreaItem : MonoBehaviour
     }
 
     /// <summary>
-    /// 播放碰的动作
+    /// 播放吃的动作
     /// </summary>
     public void PlayChi(GameObject chiedCard)
     {
@@ -846,6 +847,64 @@ public class BattleAreaItem : MonoBehaviour
         }
         BattleAreaUtil.ResortPutCard(this);
         return pengedCard;
+    }
+    /// <summary>
+    /// 手牌变灰，true为全部，false-可能是部分
+    /// </summary>
+    /// <param name="canOperateCards"></param>
+    /// <param name="isAllCards"></param>
+    public void SetHandCardsGray(List<int> canOperateCards,bool isAllCards)
+    {
+        if (_data.userId == playerInfoProxy.userID)
+        {
+            
+            if (!isAllCards)
+            {
+                List<GameObject> grayCardList = new List<GameObject>();
+                grayCardList = handCards.FindAll(o => !canOperateCards.Contains(BattleAreaUtil.GetMeshCardValue(o)));
+
+                var getCardPlayerVOS2C = battleProxy.playerIdInfoDic[battleProxy.GetPlayerActS2C().userId];
+                if (!canOperateCards.Contains(getCardPlayerVOS2C.getCard))
+                {
+                    getCard.GetComponent<MeshRenderer>().material.color = Color.gray;
+                    getCard.GetComponent<BoxCollider>().enabled = false;
+                }
+                if (canOperateCards != null)
+                {
+                    for (int i = 0; i < grayCardList.Count; i++)
+                    {
+                        grayCardList[i].GetComponent<MeshRenderer>().material.color = Color.gray;
+                        grayCardList[i].GetComponent<BoxCollider>().enabled = false;
+                    }
+                }
+                else
+                {
+                    Debug.LogError("canOperateCards is null");
+                }
+            }
+            else
+            {
+                for (int i = 0; i < handCards.Count; i++)
+                {
+                    handCards[i].GetComponent<MeshRenderer>().material.color = Color.gray;
+                    handCards[i].GetComponent<BoxCollider>().enabled = false;
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// 恢复正常颜色,可以选择打牌
+    /// </summary>
+    public void RecoveryHandCardsColor()
+    {
+        if (_data.userId == playerInfoProxy.userID)
+        {
+            for (int i = 0; i < handCards.Count; i++)
+            {
+                handCards[i].GetComponent<MeshRenderer>().material.color = Color.white;
+                handCards[i].GetComponent<BoxCollider>().enabled = true;
+            }
+        }
     }
 
     /// <summary>
@@ -1016,6 +1075,12 @@ public class BattleAreaItem : MonoBehaviour
         ApplicationFacade.Instance.SendNotification(NotificationConstant.TING_UPDATE);
         battleProxy.SetIsForbit(false);
         ApplicationFacade.Instance.SendNotification(NotificationConstant.SHOW_CARD_ARROW, this);
+
+        if (PlayerPrefs.GetInt(battleProxy.GetPlayerActS2C().userId.ToString())== 1)
+        {
+            SetHandCardsGray(null, true);
+        }
+        
     }
 
     /// <summary>
@@ -1107,6 +1172,7 @@ public class BattleAreaItem : MonoBehaviour
             handCards.Sort(BattleAreaUtil.CompareCard);
         }
         BattleAreaUtil.ResortHandGangGetCard(this);
+        RecoveryHandCardsColor();
     }
 
     /// <summary>
@@ -1130,6 +1196,7 @@ public class BattleAreaItem : MonoBehaviour
             huCard.transform.localScale = sendCard.localScale;
             huCard.transform.localEulerAngles = sendCard.localEulerAngles;
         }
+        RecoveryHandCardsColor();
         return huCard;
     }
 
@@ -1150,6 +1217,7 @@ public class BattleAreaItem : MonoBehaviour
             handCards.Sort(BattleAreaUtil.CompareCard);
         }
         BattleAreaUtil.ResortHandGangGetCard(this);
+        RecoveryHandCardsColor();
     }    
 
     /// <summary>

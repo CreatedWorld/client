@@ -174,8 +174,8 @@ public class UIManager
 			RegisterUI (UIViewID.DIALOG_VIEW, new DialogView ());
 			RegisterUI (UIViewID.MATCH_RESULT_VIEW, new MatchResultView ());
 			RegisterUI (UIViewID.ROOM_RESULT_VIEW, new RoomResultView ());
-			RegisterUI (UIViewID.MIDDLEMENU_VIEW, new MiddleMenuView ());
 			RegisterUI (UIViewID.BOTTOMMENU_VIEW, new BottomMenuView ());
+			RegisterUI (UIViewID.MIDDLEMENU_VIEW, new MiddleMenuView ());
 			RegisterUI (UIViewID.PLATER_INFO_VIEW, new PlayerInfoView ());
 			RegisterUI (UIViewID.SHOPPING_VIEW, new ShoppingView ());
 			RegisterUI (UIViewID.SIGNIN_VIEW, new SignInView ());

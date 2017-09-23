@@ -22,8 +22,8 @@ public class AddFileHeadComment : UnityEditor.AssetModificationProcessor
 
         //这里实现自定义的一些规则  
         scriptContent = scriptContent.Replace("#SCRIPTFULLNAME#", Path.GetFileName(newFilePath));
-        scriptContent = scriptContent.Replace("#COMPANY#", "Alan");
-        scriptContent = scriptContent.Replace("#AUTHOR#", System.Net.Dns.GetHostName());
+        scriptContent = scriptContent.Replace("#COMPANY#", "Antiphon");
+        scriptContent = scriptContent.Replace("#AUTHOR#", "Alan");
         scriptContent = scriptContent.Replace("#VERSION#", "1.0");
         scriptContent = scriptContent.Replace("#UNITYVERSION#", Application.unityVersion);
         scriptContent = scriptContent.Replace("#DATE#", System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));

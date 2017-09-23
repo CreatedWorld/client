@@ -153,6 +153,7 @@ namespace Platform.View.Battle
         /// <returns></returns>
         private IEnumerator PlayCloseEffect()
         {
+            Debug.Log("多次准备？？？？？");
             //View.viewRoot.GetComponent<Animator>().Play("MatchResultClose",0,0);
             UIManager.Instance.HideUI(UIViewID.MATCH_RESULT_VIEW);
             foreach (MatchResultPlayerItem matchResultPlayerItem in View.playerItems)

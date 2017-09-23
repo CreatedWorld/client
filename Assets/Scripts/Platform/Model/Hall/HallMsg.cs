@@ -1220,25 +1220,22 @@ namespace Platform.Model
   {
     public HallRoomInfo() {}
     
-    private string _roomId = "";
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"roomId", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue("")]
+    private string _roomId;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"roomId", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public string roomId
     {
       get { return _roomId; }
       set { _roomId = value; }
     }
-    private string _numOfGames = "";
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"numOfGames", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue("")]
+    private string _numOfGames;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"numOfGames", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public string numOfGames
     {
       get { return _numOfGames; }
       set { _numOfGames = value; }
     }
-    private int _pepole = default(int);
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"pepole", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    [global::System.ComponentModel.DefaultValue(default(int))]
+    private int _pepole;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"pepole", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     public int pepole
     {
       get { return _pepole; }

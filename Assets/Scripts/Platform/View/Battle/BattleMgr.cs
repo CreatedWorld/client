@@ -78,7 +78,7 @@ public class BattleMgr : MonoBehaviour
         upArea = transform.Find("UpArea").gameObject.GetComponent<BattleAreaItem>();
         leftArea = transform.Find("LeftArea").gameObject.GetComponent<BattleAreaItem>();
         cardArrowIcon = transform.Find("CardArrowIcon").gameObject;
-        //masterView = transform.Find("MasterContainer/MasterView").GetComponent<MasterView>();
+        masterView = transform.Find("MasterContainer/MasterView").GetComponent<MasterView>();
         cardArrowIcon.SetActive(false);
         battleAreaItems.Add(downArea);
         battleAreaItems.Add(rightArea);

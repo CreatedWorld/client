@@ -50,7 +50,7 @@ public class MasterView : MonoBehaviour
     /// 庄家标志
     /// </summary>
     private SpriteRenderer masterIcon;
-
+    private bool ComfirSit = false;
     /// <summary>
     /// 出牌剩余时间
     /// </summary>
@@ -82,7 +82,6 @@ public class MasterView : MonoBehaviour
         dirIconPostionArr.Add(northIcon.transform.localPosition);
         arrowContainer = transform.Find("ArrowContainer");
         arrowIcon = transform.Find("ArrowContainer/ArrowIcon").GetComponent<SpriteRenderer>();
-
         
     }
 
@@ -95,6 +94,29 @@ public class MasterView : MonoBehaviour
     void Update()
     {
         colorEastIcon.color  = new Color(1,1,1, Mathf.PingPong(Time.time*2,1));
+        if (battleProxy.isStart && !ComfirSit)
+        {
+            ComfirSit = true;
+            if (battleProxy.playerIdInfoDic[playerInfoProxy.userID].sit == 1)
+            {
+                gameObject.transform.localPosition = new Vector3(-0.009f, 0.029f, 0.055f);
+                gameObject.transform.localEulerAngles = new Vector3(50,0,0);
+            }else if (battleProxy.playerIdInfoDic[playerInfoProxy.userID].sit == 2)
+            {
+                gameObject.transform.localPosition = new Vector3(-0.003f,0.029f,0.055f);
+                gameObject.transform.localEulerAngles = new Vector3(50f, 0, -90);
+            }
+            else if (battleProxy.playerIdInfoDic[playerInfoProxy.userID].sit == 3)
+            {
+                gameObject.transform.localPosition = new Vector3(-0.004f, 0.025f, 0.049f);
+                gameObject.transform.localEulerAngles = new Vector3(50f, 0, 180);
+            }
+            else if (battleProxy.playerIdInfoDic[playerInfoProxy.userID].sit == 4)
+            {
+                gameObject.transform.localPosition = new Vector3(-0.001f, 0.025f, 0.049f);
+                gameObject.transform.localEulerAngles = new Vector3(50f, 0, 90);
+            }
+        }
     }
 
 

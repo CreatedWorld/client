@@ -76,27 +76,122 @@ namespace Platform.Utils
                     }
                     areaItem.pengGangCards[i][j].transform.SetParent(areaItem.pengGangCardContainer);
                     areaItem.pengGangCards[i][j].transform.localScale = Vector3.one;
-                    if (covertIndex == j + 1 || (covertIndex == -1 && (j == 3 || j == 0)))
+                    areaItem.pengGangCards[i][j].transform.localEulerAngles = Vector3.zero;
+                    if (j == 1)
                     {
-                        areaItem.pengGangCards[i][j].transform.localEulerAngles = new Vector3(0, 90, 0);
-                        //areaItem.pengGangCards[i][j].transform.localPosition -= new Vector3(0,0,0.1f);
-                    }
-                    else
-                    {
-                        var sitIndex = (areaItem.data.sit - selfInfoVO.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
-                        if (sitIndex == 2)//顶部
+                        var targetPlayerInfoVO = battleProxy.playerIdInfoDic[areaItem.data.pengGangCards[i].targetUserId];
+                        var targetIndex = targetPlayerInfoVO.sit;//(targetPlayerInfoVO.sit - areaItem.data.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
+
+
+                        GameObject go = new GameObject();
+                        go.AddComponent<SpriteRenderer>();
+                        go.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Textures/91city_chipenggang/right@2x");
+                        go.transform.SetParent(areaItem.pengGangCards[i][j].transform);
+                        if (battleProxy.playerIdInfoDic[playerInfoProxy.userID].sit == 1)//自己是东家
                         {
-                            areaItem.pengGangCards[i][j].transform.localEulerAngles = new Vector3(0, 0, 0);
+                            if (targetPlayerInfoVO.sit == 1)//被碰的人不会是自己
+                            {
+                                Debug.Log("sitIndex = 下边");
+                                go.transform.localEulerAngles = new Vector3(0, 0, 0);
+                            }
+                            if (targetPlayerInfoVO.sit == 2)//往右-北家
+                            {
+                                Debug.Log("sitIndex = 右边");
+                                go.transform.localEulerAngles = new Vector3(90, 0, 180);
+                            }
+                            if (targetPlayerInfoVO.sit == 3)
+                            {
+                                Debug.Log("sitIndex = 中间");
+                                go.transform.localEulerAngles = new Vector3(90, 0, 90);
+                            }
+                            if (targetPlayerInfoVO.sit == 4)
+                            {
+                                Debug.Log("sitIndex = 左边");
+                                go.transform.localEulerAngles = new Vector3(90, 0, 0);
+                            }
+                        }
+                        else if (battleProxy.playerIdInfoDic[playerInfoProxy.userID].sit == 2)//北家
+                        {
+                            if (targetPlayerInfoVO.sit == 1)
+                            {
+                                go.transform.localEulerAngles = new Vector3(90, 0, -90);
+                            }
+                            if (targetPlayerInfoVO.sit == 2)
+                            {
+                                go.transform.localEulerAngles = new Vector3(90, 0, 180);
+                            }
+                            if (targetPlayerInfoVO.sit == 3)
+                            {
+                                go.transform.localEulerAngles = new Vector3(90, 0, 90);
+                            }
+                            if (targetPlayerInfoVO.sit == 4)
+                            {
+                                go.transform.localEulerAngles = new Vector3(90, 0, 0);
+                            }
+                        }
+                        else if (battleProxy.playerIdInfoDic[playerInfoProxy.userID].sit == 3)
+                        {
+                            if (targetPlayerInfoVO.sit == 1)
+                            {
+                                go.transform.localEulerAngles = new Vector3(90, 0, 180);
+                            }
+                            if (targetPlayerInfoVO.sit == 2)
+                            {
+                                go.transform.localEulerAngles = new Vector3(90, 0, 90);
+                            }
+                            if (targetPlayerInfoVO.sit == 3)
+                            {
+                                go.transform.localEulerAngles = new Vector3(0, 0, -0);
+                            }
+                            if (targetPlayerInfoVO.sit == 4)
+                            {
+                                go.transform.localEulerAngles = new Vector3(90, 0, -90);
+                            }
+                        }
+                        else if (battleProxy.playerIdInfoDic[playerInfoProxy.userID].sit == 4)//南家
+                        {
+                            if (targetPlayerInfoVO.sit == 1)
+                            {
+                                go.transform.localEulerAngles = new Vector3(90, 0, -90);//往右-东家
+                            }
+                            if (targetPlayerInfoVO.sit == 2)
+                            {
+                                go.transform.localEulerAngles = new Vector3(90, 0, 180);//往上-北家
+                            }
+                            if (targetPlayerInfoVO.sit == 3)
+                            {
+                                go.transform.localEulerAngles = new Vector3(90, 0, 90);//往左-西家
+                            }
+                            if (targetPlayerInfoVO.sit == 4)//被碰的人不会是自己
+                            {
+                                go.transform.localEulerAngles = new Vector3(90, 0, -90);
+                            }
+                        }
+                        //if (targetIndex == 1) {
+                        //    Debug.Log("sitIndex = 右边");
+                        //     go.transform.localEulerAngles = new Vector3(90, 0, 180); 
+                        //}
+                        //if (targetIndex == 2) {
+                        //    Debug.Log("sitIndex = 中间");
+                        //    go.transform.localEulerAngles = new Vector3(90, 0, 90);
+                        //}
+                        //if (targetIndex == 3) {
+                        //    Debug.Log("sitIndex = 左边");
+                        //    go.transform.localEulerAngles = new Vector3(90, 0, 0); 
+                        //}
+
+                        go.transform.localPosition = new Vector3(0,-0.197f,0);
+                        go.transform.localScale = Vector3.one;
+                        if (AreaDir.DOWN == areaItem.dir)
+                        {
+                            go.layer = GlobalData.SELF_HAND_CARDS;
                         }
                         else
                         {
-                            areaItem.pengGangCards[i][j].transform.localEulerAngles = Vector3.zero;
-                        }                        
+                            go.layer = GlobalData.OTHER_CARDS;
+                        }
                     }
-                    if (covertIndex == -1 && areaItem.data.userId != playerInfoProxy.userID)
-                    {
-                        areaItem.pengGangCards[i][j].transform.localEulerAngles = new Vector3(0, 0, 0);
-                    }
+                    
                     areaItem.pengGangCards[i][j].transform.localPosition = pengGangPos;
                     areaItem.pengGangCards[i][j].layer = GlobalData.OTHER_CARDS;
                     lastPengGangCard = areaItem.pengGangCards[i][j];
@@ -296,52 +391,64 @@ namespace Platform.Utils
                         var card = ResourcesMgr.Instance.GetFromPool(areaItem.data.pengGangCards[i].pengGangCards[j]);
                         if (j > 0)
                         {
-                            
-                            if (j == 0 || j == 1 || j== 3)
-                            {
-                                pengGangPos += areaItem.pengGangGap;
-                            }
-                            else
-                            {
-                                pengGangPos -= new Vector3(0, -0.368f, 0);//做叠牌处理
-                            }
+                            pengGangPos += areaItem.pengGangGap;
+                           
                         }
                         card.transform.SetParent(areaItem.pengGangCardContainer);
                         card.transform.localScale = Vector3.one;
-                        if (covertIndex == j + 1 || (covertIndex == -1 && (j == 3 || j == 0)))//自己
+                        if (j == 1)
                         {
-                            if (areaItem.data.pengGangCards[i].pengGangCards.Count != 4)
+                            var targetPlayerInfoVO = battleProxy.playerIdInfoDic[areaItem.data.pengGangCards[i].targetUserId];
+                            var targetIndex = (targetPlayerInfoVO.sit - areaItem.data.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
+                            GameObject go = new GameObject();
+                            go.AddComponent<SpriteRenderer>();
+                            if (targetIndex == 1)
                             {
-                                card.transform.localEulerAngles = new Vector3(0, 90, 0);
-                                pengGangPos -= new Vector3(0.08f, 0, 0.1f);
-                            }
-                            else
-                            {
-                                if (j==2)
-                                {
-                                    card.transform.localEulerAngles = new Vector3(0, 0, 0);
-                                    
-                                }
-                            }
+                                Debug.Log("sitIndex = 右边");
 
-                        }
-                        else
-                        {
-                            var sitIndex = (areaItem.data.sit - selfInfoVO.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
-                            if (sitIndex == 2)//顶部
+                                go.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Textures/91city_chipenggang/right@2x");
+                                go.transform.SetParent(card.transform);
+                                if (areaItem.dir == AreaDir.UP)
+                                {
+                                    go.transform.localEulerAngles = new Vector3(90, 0, 0); 
+                                }
+                                if (areaItem.dir == AreaDir.DOWN) { go.transform.localEulerAngles = new Vector3(90, 0, 180); }
+                            }
+                            if (targetIndex == 2)
                             {
-                                card.transform.localEulerAngles = new Vector3(0, -180, 0);
+                                Debug.Log("sitIndex = 中间");
+                                go.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Textures/91city_chipenggang/right@2x");
+                                go.transform.SetParent(card.transform);
+                                go.transform.localEulerAngles = new Vector3(90, 0, 90);
+                            }
+                            if (targetIndex == 3)
+                            {
+                                Debug.Log("sitIndex = 左边");
+                                go.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Textures/91city_chipenggang/right@2x");
+                                go.transform.SetParent(card.transform);
+                                if (areaItem.dir == AreaDir.UP)
+                                {
+                                    go.transform.localEulerAngles = new Vector3(90, 0, 180); 
+                                }
+                                if (areaItem.dir == AreaDir.DOWN) { go.transform.localEulerAngles = new Vector3(90, 0, 0); }
+                            }
+                            go.transform.localPosition = new Vector3(0, -0.197f, 0);
+                            go.transform.localScale = Vector3.one;
+                            if (AreaDir.DOWN == areaItem.dir)
+                            {
+                                go.layer = GlobalData.SELF_HAND_CARDS;
                             }
                             else
                             {
-                                card.transform.localEulerAngles = Vector3.zero;
+                                go.layer = GlobalData.OTHER_CARDS;
                             }
                         }
+
                         if (covertIndex == -1 && areaItem.data.userId != playerInfoProxy.userID)
                         {
-                            card.transform.localEulerAngles = new Vector3(180, 0, 0);
+                            //card.transform.localEulerAngles = new Vector3(180, 0, 0);
                         }
-                        
+                        card.transform.localEulerAngles = Vector3.one;
                         card.transform.localPosition = pengGangPos;
                         card.layer = GlobalData.OTHER_CARDS;
                         lastPengGangCard = card;
@@ -554,6 +661,28 @@ namespace Platform.Utils
             {
                 card.transform.localEulerAngles = Vector3.zero;
             }
+        }
+
+        public static GameObject ChiPengGangCardArrow(Transform _transform,AreaDir dir)
+        {
+            GameObject go = new GameObject();
+            go.AddComponent<SpriteRenderer>();
+            string str = "";
+            if (dir == AreaDir.RIGHT)
+            {
+                str = "Textures/91city_chipenggang/right@2x";
+            }
+            else if (dir == AreaDir.UP)
+            {
+                str = "Textures/91city_chipenggang/up@2x";
+            }
+            else if (dir == AreaDir.LEFT)
+            {
+                str = "Textures/91city_chipenggang/left@2x";
+            }
+            go.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(str);
+            go.transform.SetParent(_transform);
+            return go;
         }
 
         /// <summary>

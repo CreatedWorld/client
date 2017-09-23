@@ -86,7 +86,20 @@ public class HeadItem : MonoBehaviour
     /// 胡牌特效
     /// </summary>
     private GameObject huEffect;
-
+    /// <summary>
+    /// 投河图标
+    /// </summary>
+    [HideInInspector]
+    public GameObject touheObj;
+    /// <summary>
+    /// 报听，报夹，报吊，抻吊
+    /// </summary>
+    [HideInInspector]
+    public Image baoImg;
+    /// <summary>
+    /// 报的特效位置
+    /// </summary>
+    private Transform baoEffect;
     void Awake()
     {
         battleProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.BATTLE_PROXY) as BattleProxy;
@@ -105,6 +118,9 @@ public class HeadItem : MonoBehaviour
         //creatorIcon = transform.FindChild("Head/CreatorIcon").gameObject;
         waitingIcon = transform.FindChild("WaitingIcon").gameObject;
         huView = transform.FindChild("HuView");
+        touheObj = transform.FindChild("touhe").gameObject;
+        baoImg = transform.FindChild("diao").GetComponent<Image>();
+        baoEffect = transform.FindChild("baoEffect");
         //offlineIcon = transform.FindChild("Head/OfflineIcon").gameObject;
 
         headBtn.onClick.AddListener(OpenPlayerInfo);
@@ -138,7 +154,7 @@ public class HeadItem : MonoBehaviour
             {
                 waitingIcon.SetActive(false);
                 nameTxt.text = value.name;
-                coinTxt.text = value.score.ToString();
+                coinTxt.text = value.score.ToString();//battleProxy.score.ToString();//
                 UpdateOnline(value.isOnline);
                 if (battleProxy.isStart)
                 {
@@ -178,6 +194,7 @@ public class HeadItem : MonoBehaviour
                 }
             }
             _data = value;
+            
         }
     }
 
@@ -277,7 +294,7 @@ public class HeadItem : MonoBehaviour
     /// <param name="act"></param>
     public void PlayAct(PlayerActType act)
     {
-        GameObject effectPerfab = null;
+        GameObject effectPerfab = null; 
         switch (act)
         {
             case PlayerActType.COMMON_AN_GANG:
@@ -293,17 +310,59 @@ public class HeadItem : MonoBehaviour
             case PlayerActType.CHI:
                 effectPerfab = Resources.Load<GameObject>("Effect/ChiEffect/ChiEffect");
                 break;
+            case PlayerActType.BAO_TING:
+                effectPerfab = Resources.Load<GameObject>("Effect/91Effect/EffectBaoTing");
+                BaoIcon(act);
+                break;
+            case PlayerActType.BAO_DIAO:
+                effectPerfab = Resources.Load<GameObject>("Effect/91Effect/EffectBaoDiao");
+                BaoIcon(act);
+                break;
+            case PlayerActType.BAO_JIA:
+                effectPerfab = Resources.Load<GameObject>("Effect/91Effect/EffectBaoJia");
+                BaoIcon(act);
+                break;
+            case PlayerActType.CHENG_DIAO:
+                effectPerfab = Resources.Load<GameObject>("Effect/91Effect/EffectChenDiao");
+                BaoIcon(act);
+                break;
         }
         if (effectPerfab != null)
         {
             actEffect = Instantiate(effectPerfab);
             var perPosition = actEffect.GetComponent<RectTransform>().localPosition;
-            actEffect.GetComponent<RectTransform>().SetParent(GetComponent<RectTransform>());
-            actEffect.GetComponent<RectTransform>().localPosition = perPosition;
+            actEffect.GetComponent<RectTransform>().SetParent(baoEffect);//GetComponent<RectTransform>()
+            actEffect.GetComponent<RectTransform>().localPosition = baoEffect.localPosition;//perPosition;
             actEffect.GetComponent<RectTransform>().localScale = Vector3.one;
             actEffect.GetComponent<Animator>().enabled = true;
             Timer.Instance.AddDeltaTimer(0.5f, 1, 2.5f, RemoveActEffect);
         }        
+    }
+
+    /// <summary>
+    /// 显示报听，报夹，报吊，抻吊Ico
+    /// </summary>
+    /// <param name="act"></param>
+    public void BaoIcon(PlayerActType act)
+    {
+        
+        if (act == PlayerActType.BAO_TING)
+        {
+            baoImg.gameObject.SetActive(true);
+            baoImg.sprite = Resources.Load<Sprite>("Textures/91city_chipenggang/tingIco");
+        }
+        if (act == PlayerActType.BAO_JIA)
+        {
+            baoImg.gameObject.SetActive(true);
+            baoImg.sprite = Resources.Load<Sprite>("Textures/91city_chipenggang/jiaIco");
+        }
+        if (act == PlayerActType.BAO_DIAO || act == PlayerActType.CHENG_DIAO)
+        {
+            Debug.Log("PlayerActType is" +act);
+            baoImg.gameObject.SetActive(true);
+            baoImg.sprite = Resources.Load<Sprite>("Textures/91city_chipenggang/diaoIco");
+        }
+
     }
 
     /// <summary>
@@ -432,5 +491,9 @@ internal enum OperateType
     GANG,
     HU,
     PASS,
-    CHI
+    CHI,
+    BAOTING,
+    BAOJIA,
+    BAODIAO,
+    CHENDIAO
 }

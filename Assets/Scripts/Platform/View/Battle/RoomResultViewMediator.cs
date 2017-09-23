@@ -109,6 +109,7 @@ namespace Platform.View.Battle
             UIManager.Instance.HideUI(UIViewID.ROOM_RESULT_VIEW);
             var loadInfo = new LoadSceneInfo(ESceneID.SCENE_HALL, LoadSceneType.ASYNC, LoadSceneMode.Additive);
             SendNotification(NotificationConstant.MEDI_GAMEMGR_LOADSCENE, loadInfo);
+            SendNotification(NotificationConstant.MEDI_BATTLEVIEW_SHOWROOMRESULT);
         }
 
         /// <summary>

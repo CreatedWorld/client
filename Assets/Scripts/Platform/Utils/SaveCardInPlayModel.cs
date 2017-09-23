@@ -99,7 +99,7 @@ public class SaveCardInPlayModel : MonoBehaviour
 
         path = Application.dataPath + "/Card.xml";
         style = new GUIStyle();
-        style.fontSize = 25;
+        style.fontSize = 18;
         style.normal.textColor = Color.yellow;
 
         FindTransformInBattleDemo();
@@ -133,7 +133,7 @@ public class SaveCardInPlayModel : MonoBehaviour
     }
     void OnGUI()
     {
-        GUI.Label(new Rect(Screen.width / 2.0f-150, 30, 400, 200), tips,style);
+        GUI.Label(new Rect(250, 10, 400, 200), tips,style);
     }
 
     void InitXML()
@@ -251,6 +251,7 @@ public class SaveCardInPlayModel : MonoBehaviour
         }
         //最后保存文件
         xml.Save(path);
+        tips = "保存成功！";
         Debug.Log("保存xml成功！");
 
     }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:7d8c72052522088944ce688e5815003a$ -->
+<TextureAtlas imagePath="font_Altas.png">
+    <SubTexture name="-" x="82" y="41" width="16" height="8"/>
+    <SubTexture name="1" x="30" y="80" width="17" height="37"/>
+    <SubTexture name="2" x="90" y="2" width="25" height="37"/>
+    <SubTexture name="3" x="30" y="40" width="24" height="38"/>
+    <SubTexture name="4" x="30" y="2" width="30" height="36"/>
+    <SubTexture name="5" x="56" y="40" width="24" height="37"/>
+    <SubTexture name="6" x="2" y="82" width="26" height="38"/>
+    <SubTexture name="7" x="62" y="2" width="26" height="36"/>
+    <SubTexture name="8" x="2" y="42" width="26" height="38"/>
+    <SubTexture name="9" x="2" y="2" width="26" height="38"/>
+</TextureAtlas>
