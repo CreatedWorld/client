@@ -23,7 +23,18 @@ public class MatchResultView : UIView
     ///     开始下一局按钮
     /// </summary>
     public Button startNextBtn;
-
+    /// <summary>
+    /// 房间号
+    /// </summary>
+    public Text RoomCode;
+    /// <summary>
+    /// 局数
+    /// </summary>
+    public Text CurrentInn;
+    /// <summary>
+    /// 玩法1
+    /// </summary>
+    public Text Rule1;
     /// <summary>
     ///     开始下一局按钮文本
     /// </summary>
@@ -37,15 +48,18 @@ public class MatchResultView : UIView
     ///     单局胜败图标
     /// </summary>
     //public Image titleIcon;
-   /// <summary>
-   /// 动作特效
-   /// </summary>
+    /// <summary>
+    /// 动作特效
+    /// </summary>
     public GameObject actEffect;
 
     public override void OnInit()
     {
         viewRoot = LaunchUIView("Prefab/UI/Battle/MatchResultView");
         startNextBtn = viewRoot.transform.Find("WinBg/StartNextBtn").GetComponent<Button>();
+        RoomCode = viewRoot.transform.Find("WinBg/RoomId/Text").GetComponent<Text>();
+        CurrentInn = viewRoot.transform.Find("WinBg/Round/Text").GetComponent<Text>();
+        Rule1 = viewRoot.transform.Find("WinBg/Rule/Text").GetComponent<Text>();
         //shareBtn = viewRoot.transform.Find("WinBg/ShareBtn").GetComponent<Button>();
         //startNextBtnTxt = viewRoot.transform.Find("WinBg/StartNextBtn/Text").GetComponent<Text>();
         playerItems = new List<MatchResultPlayerItem>();
@@ -57,6 +71,10 @@ public class MatchResultView : UIView
         itemGap = playerItems[1].gameObject.GetComponent<RectTransform>().localPosition.y -
                   playerItems[0].gameObject.GetComponent<RectTransform>().localPosition.y;
         //titleIcon = viewRoot.transform.Find("TitleIcon").GetComponent<Image>();
+
+        RoomCode.text = RoomInfo.RoomId;
+        CurrentInn.text = RoomInfo.Round;
+        Rule1.text = RoomInfo.Rule1 + RoomInfo.Rule2 + RoomInfo.Rule3;
     }
 
     public override ESceneID UISceneID

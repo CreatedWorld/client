@@ -91,6 +91,7 @@ public class MatchResultPlayerItem : MonoBehaviour
             addScoreTxt.text = value.addScore > 0 ? "+" + value.addScore : value.addScore.ToString();
             bankerIcon.SetActive(playerInfoVO.userId == battleProxy.perBankerId);
             handCards = new List<GameObject>();
+            var matchResultS2C = battleProxy.matchResultS2C;
             float cardNum = 0;
             RectTransform card1Rect = card1.GetComponent<RectTransform>();
             for (int i = 0; i < _data.pengGangs.Count; i++)
@@ -144,24 +145,35 @@ public class MatchResultPlayerItem : MonoBehaviour
                 cardRect.localPosition = card1Rect.localPosition + GetCardPositionByIndex(cardNum);
                 handCards.Add(cardItem);
             }
-            if (battleProxy.matchResultS2C.ziMoUserId == _data.userId)
+            if (battleProxy.matchResultS2C.ziMoUserId == _data.userId)//自摸
             {
                 huImg.gameObject.SetActive(true);
-                //huIcon.sprite = Resources.Load<Sprite>("Textures/HuType/SelfHu");
+                huImg.sprite = Resources.Load<Sprite>("Textures/HuType/Hu");
+                huImg.SetNativeSize();
             }
-            else if (battleProxy.matchResultS2C.huedUserId == _data.userId)
-            {
-                huImg.gameObject.SetActive(false);
-                //huIcon.sprite = Resources.Load<Sprite>("Textures/HuType/Hued");
-            }
-            else if (battleProxy.matchResultS2C.huedUserId > 0 && battleProxy.matchResultS2C.huUserId.Contains(_data.userId))
+            else if (battleProxy.matchResultS2C.huedUserId == _data.userId)//点炮
             {
                 huImg.gameObject.SetActive(true);
-                //huIcon.sprite = Resources.Load<Sprite>("Textures/HuType/OtheHu");
+                huImg.sprite = Resources.Load<Sprite>("Textures/HuType/OtherHu");
+                huImg.SetNativeSize();
+            }
+            else if (battleProxy.matchResultS2C.huedUserId > 0 && battleProxy.matchResultS2C.huUserId.Contains(_data.userId))//接炮
+            {
+                huImg.gameObject.SetActive(true);
+                huImg.sprite = Resources.Load<Sprite>("Textures/HuType/Hu");
+                huImg.SetNativeSize();
             }
             else
             {
-                huImg.gameObject.SetActive(false); 
+                if (matchResultS2C.huUserId.Count == 0)//流局
+                {
+                    huImg.gameObject.SetActive(true);
+                    huImg.sprite = Resources.Load<Sprite>("Textures/HuType/NoneHu");
+                }
+                else
+                {
+                    huImg.gameObject.SetActive(false); 
+                }
             }
             string desc = "";
             if (_data.huDesc != null)

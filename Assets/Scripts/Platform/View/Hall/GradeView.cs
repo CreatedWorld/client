@@ -9,6 +9,10 @@ using UnityEngine.UI;
 public class GradeView : UIView
 {
     /// <summary>
+    /// recordScrollView的标题
+    /// </summary>
+    public GameObject RecordTitleObj;
+    /// <summary>
     /// 关闭按钮
     /// </summary>
     private Button closeButton;
@@ -36,6 +40,7 @@ public class GradeView : UIView
     /// 生成房间信息滚动条信息集合
     /// </summary>
     private List<ParticularsTableItem> particularsScrollList;
+
     public Button CloseButton
     {
         get
@@ -109,6 +114,7 @@ public class GradeView : UIView
         this.ParticularsScrollView = this.viewRoot.transform.FindChild("Grade").FindChild("ParticularsScrollView").gameObject;
         this.GradeTableView = this.viewRoot.transform.Find("Grade/RecordScrollView").GetComponent<TableView>();
         this.ParticularsTableView = this.viewRoot.transform.Find("Grade/ParticularsScrollView").GetComponent<TableView>();
+        RecordTitleObj = viewRoot.transform.FindChild("Grade/RecordTitle").gameObject;
         ApplicationFacade.Instance.RegisterMediator(new GradeMediator(Mediators.HALL_GRADE, this));
     }
 
@@ -129,6 +135,7 @@ public class GradeView : UIView
     {
         base.OnShow();
         this.RecordScrollView.SetActive(true);
+        RecordTitleObj.SetActive(true);
         this.ParticularsScrollView.SetActive(false);
         UIManager.Instance.ShowUIMask(UIViewID.GRADE_VIEW);
         UIManager.Instance.ShowDOTween(this.viewRoot.GetComponent<RectTransform>());

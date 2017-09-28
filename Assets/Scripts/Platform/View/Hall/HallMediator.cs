@@ -48,8 +48,8 @@ public class HallMediator : Mediator, IMediator
 		View.HallView = (HallView)UIManager.Instance.ShowUI (UIViewID.HALL_VIEW);
 		View.TopView = (TopMenuView)UIManager.Instance.ShowUI (UIViewID.TOPMENU_VIEW);
 		View.HallRoomListView = (HallRoomListView)UIManager.Instance.ShowUI (UIViewID.HALLROOMLIST_VIEW);
-		View.BottomView = (BottomMenuView)UIManager.Instance.ShowUI (UIViewID.BOTTOMMENU_VIEW);
 		View.MiddleView = (MiddleMenuView)UIManager.Instance.ShowUI (UIViewID.MIDDLEMENU_VIEW);
+		View.BottomView = (BottomMenuView)UIManager.Instance.ShowUI (UIViewID.BOTTOMMENU_VIEW);
 		TopMenuAddEvent ();
 		MiddleMenuAddEvent ();
 		BottomMenuAddEvent ();
@@ -160,18 +160,28 @@ public class HallMediator : Mediator, IMediator
 			});
 	}
 
-	/// <summary>
-	/// 绑定中部UI按钮事件
-	/// </summary>
-	private void MiddleMenuAddEvent ()
-	{
-		View.MiddleView.ButtonAddListening (View.MiddleView.createRoomButton, () => {
-			UIManager.Instance.ShowUI (UIViewID.CREATEROOM_VIEW);
-		}, true);
-		View.MiddleView.ButtonAddListening (View.MiddleView.joinRoomButton, () => {
-			UIManager.Instance.ShowUI (UIViewID.JOINROOM_VIEW);
-		});
-
+    /// <summary>
+    /// 绑定中部UI按钮事件
+    /// </summary>
+    private void MiddleMenuAddEvent()
+    {
+        View.MiddleView.ButtonAddListening(View.MiddleView.createRoomButton, () => {
+            UIManager.Instance.ShowUI(UIViewID.CREATEROOM_VIEW);
+        }, true);
+        View.MiddleView.ButtonAddListening(View.MiddleView.joinRoomButton, () => {
+            UIManager.Instance.ShowUI(UIViewID.JOINROOM_VIEW);
+        });
+        View.MiddleView.switchMahjongBtn.onClick.AddListener(() => {
+            UIManager.Instance.HideUI(UIViewID.BOTTOMMENU_VIEW);
+        });
+        View.MiddleView.kdMahjongBtn.onClick.AddListener(() =>{
+                View.BottomView = (BottomMenuView)UIManager.Instance.ShowUI(UIViewID.BOTTOMMENU_VIEW);
+        });
+        View.MiddleView.xyMahjongBtn.onClick.AddListener(() =>
+        {
+            View.BottomView = (BottomMenuView)UIManager.Instance.ShowUI(UIViewID.BOTTOMMENU_VIEW);
+        }
+            );
 		View.MiddleView.ButtonAddListening (View.MiddleView.athleticsButton, () => {
 			CheckApplyStatusC2S package = new CheckApplyStatusC2S ();
 			NetMgr.Instance.SendBuff<CheckApplyStatusC2S> (SocketType.HALL, MsgNoC2S.C2S_Hall_CHECK_APPLY_STATUS.GetHashCode (), 0, package);
@@ -212,12 +222,14 @@ public class HallMediator : Mediator, IMediator
 			});
         View.BottomView.ButtonAddListening(View.BottomView.RuleBtn,
             () => {
+                View.BottomView.PanelObj.SetActive(false);
                 UIManager.Instance.ShowUI(UIViewID.RULE_VIEW);
             });
 
         View.BottomView.ButtonAddListening (View.BottomView.SettingBtn,
 			() => {
-				UIManager.Instance.ShowUI (UIViewID.SETTING_VIEW);
+                View.BottomView.PanelObj.SetActive(false);
+                UIManager.Instance.ShowUI (UIViewID.SETTING_VIEW);
 			});
 	}
 

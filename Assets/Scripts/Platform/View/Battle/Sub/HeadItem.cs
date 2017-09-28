@@ -28,7 +28,7 @@ public class HeadItem : MonoBehaviour
     /// <summary>
     /// 头像按钮
     /// </summary>
-    private Button headBtn;
+    public Button headBtn;
     /// <summary>
     /// 玩家名称
     /// </summary>
@@ -49,7 +49,7 @@ public class HeadItem : MonoBehaviour
     /// 庄家图标
     /// </summary>
     private GameObject bankerIcon;
-    
+
     /// <summary>
     /// 正在播放声音图标
     /// </summary>
@@ -130,7 +130,8 @@ public class HeadItem : MonoBehaviour
     /// 图标上次更新时间
     /// </summary>
     float perUpdateTime = 0;
-	void Update () {
+    void Update()
+    {
         if (voicePlayIcon.activeSelf && Time.time - perUpdateTime > 0.2 && AudioSystem.Instance.curChatAudioSource != null)
         {
             perUpdateTime = Time.time;
@@ -140,7 +141,7 @@ public class HeadItem : MonoBehaviour
             Sprite targetSprite = Resources.Load<Sprite>(string.Format("Textures/VoicePlayIcon/VoicePlayIcon{0}", value));
             voiceValueIcon.sprite = targetSprite;
         }
-	}
+    }
 
     /// <summary>
     /// 头像框对应的玩家数据
@@ -164,7 +165,7 @@ public class HeadItem : MonoBehaviour
                 else
                 {
                     readyIcon.SetActive(value.isReady);
-                    readyIcon.GetComponent<Image>().color = new Color(1,1,1,1);
+                    readyIcon.GetComponent<Image>().color = new Color(1, 1, 1, 1);
                     bankerIcon.SetActive(false);
                 }
                 tryCount = 0;
@@ -175,7 +176,7 @@ public class HeadItem : MonoBehaviour
                     var sitOffset = (value.sit - selfInfoVO.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
                     if (sitOffset != 0)
                     {
-                        headBtn.gameObject.GetComponent<Animator>().Play(HeadItemAnimationName.ShowNameArr[sitOffset],0,0);
+                        headBtn.gameObject.GetComponent<Animator>().Play(HeadItemAnimationName.ShowNameArr[sitOffset], 0, 0);
                     }
                     GameMgr.Instance.StartCoroutine(AudioSystem.Instance.PlayEffectAudio("Voices/Effect/PlayerEnter"));
                 }
@@ -189,12 +190,12 @@ public class HeadItem : MonoBehaviour
                 {
                     var selfInfoVO = battleProxy.playerIdInfoDic[playerInfoProxy.userID];
                     var sitOffset = (_data.sit - selfInfoVO.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
-                    headBtn.gameObject.GetComponent<Animator>().Play(HeadItemAnimationName.HidenNameArr[sitOffset],0,0);
+                    headBtn.gameObject.GetComponent<Animator>().Play(HeadItemAnimationName.HidenNameArr[sitOffset], 0, 0);
                     GameMgr.Instance.StartCoroutine(AudioSystem.Instance.PlayEffectAudio("Voices/Effect/PlayerEnter"));
                 }
             }
             _data = value;
-            
+
         }
     }
 
@@ -216,7 +217,7 @@ public class HeadItem : MonoBehaviour
             if (tryCount < 10)
             {
                 GameMgr.Instance.StartCoroutine(DownIcon(headUrl));
-            }            
+            }
         }
     }
 
@@ -250,11 +251,11 @@ public class HeadItem : MonoBehaviour
         {
             bankerIcon.SetActive(true);
             var rectTransform = bankerIcon.GetComponent<RectTransform>();
-            rectTransform.localScale = new Vector3(3,3);
+            rectTransform.localScale = new Vector3(3, 3);
             Tweener tweener = rectTransform.DOScale(new Vector3(1, 1, 1), 0.5f);
             tweener.SetAutoKill(true);
 
-            bankerIcon.GetComponent<Image>().color = new Color(1,1,1,0);
+            bankerIcon.GetComponent<Image>().color = new Color(1, 1, 1, 0);
             Tweener tweener2 = bankerIcon.GetComponent<Image>().DOColor(Color.white, 0.5f);
             tweener2.SetAutoKill(true);
         }
@@ -294,7 +295,7 @@ public class HeadItem : MonoBehaviour
     /// <param name="act"></param>
     public void PlayAct(PlayerActType act)
     {
-        GameObject effectPerfab = null; 
+        GameObject effectPerfab = null;
         switch (act)
         {
             case PlayerActType.COMMON_AN_GANG:
@@ -336,7 +337,7 @@ public class HeadItem : MonoBehaviour
             actEffect.GetComponent<RectTransform>().localScale = Vector3.one;
             actEffect.GetComponent<Animator>().enabled = true;
             Timer.Instance.AddDeltaTimer(0.5f, 1, 2.5f, RemoveActEffect);
-        }        
+        }
     }
 
     /// <summary>
@@ -345,7 +346,7 @@ public class HeadItem : MonoBehaviour
     /// <param name="act"></param>
     public void BaoIcon(PlayerActType act)
     {
-        
+
         if (act == PlayerActType.BAO_TING)
         {
             baoImg.gameObject.SetActive(true);
@@ -358,7 +359,7 @@ public class HeadItem : MonoBehaviour
         }
         if (act == PlayerActType.BAO_DIAO || act == PlayerActType.CHENG_DIAO)
         {
-            Debug.Log("PlayerActType is" +act);
+            Debug.Log("PlayerActType is" + act);
             baoImg.gameObject.SetActive(true);
             baoImg.sprite = Resources.Load<Sprite>("Textures/91city_chipenggang/diaoIco");
         }
@@ -419,7 +420,7 @@ public class HeadItem : MonoBehaviour
         }
         var getPlayerInfoC2S = new GetUserInfoByIdC2S();
         getPlayerInfoC2S.userId = _data.userId;
-        NetMgr.Instance.SendBuff(SocketType.HALL, MsgNoC2S.C2S_Hall_Get_UserInfo_By_Id.GetHashCode(),0, getPlayerInfoC2S);
+        NetMgr.Instance.SendBuff(SocketType.HALL, MsgNoC2S.C2S_Hall_Get_UserInfo_By_Id.GetHashCode(), 0, getPlayerInfoC2S);
     }
     /// <summary>
     /// 表情协程
@@ -475,7 +476,7 @@ internal class HeadItemAnimationName
     /// <summary>
     /// 头像隐藏动画名称
     /// </summary>
-    public static string[] HidenNameArr = { "","RightHeadHiden", "UpHeadHiden", "LeftHeadHiden" };
+    public static string[] HidenNameArr = { "", "RightHeadHiden", "UpHeadHiden", "LeftHeadHiden" };
     /// <summary>
     /// 头像显示动画名称
     /// </summary>

@@ -10,6 +10,7 @@ using Platform.Utils;
 using System;
 using Object = UnityEngine.Object;
 using System.Collections;
+using System.Text;
 
 public class LoginMgrMediator : Mediator, IMediator
 {
@@ -257,6 +258,14 @@ public class LoginMgrMediator : Mediator, IMediator
                 break;
         }
         package.psw = GlobalData.UserPwd;
+
+        string[] str = Application.version.Split('.');
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < str.Length; i++)
+        {
+            sb.Append(str[i]);
+        }
+        package.version = int.Parse(sb.ToString());
         NetMgr.Instance.SendBuff<LoginC2S>(SocketType.LOGIN, MsgNoC2S.C2S_LOGIN.GetHashCode(), 0, package);
         Debug.Log("发送登陆请求");
         loginProxy.autoLogin = false;

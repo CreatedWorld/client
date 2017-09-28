@@ -83,39 +83,40 @@ public class CreateRoomView : UIView
         RoundTipsBtn.onClick.AddListener(()=> { if (RoundTipsObj.activeSelf) RoundTipsObj.SetActive(false); else RoundTipsObj.SetActive(true); });
         YijiapaoTipsBtn.onClick.AddListener(()=> {
             if (RunTipsObj.activeSelf) {
-                if (RunTipsText.text == "点炮一家付分")
-                {
-                    RunTipsObj.SetActive(false);
-                }
-                else
-                {
-                    RunTipsText.text = "点炮一家付分";
-                }
+                //if (RunTipsText.text == "点炮一家付分")
+                //{
+                //    RunTipsObj.SetActive(false);
+                //}
+                //else
+                //{
+                //    RunTipsText.text = "点炮一家付分";
+                //}
+                RunTipsObj.SetActive(false);
             }
             else
             {
                 RunTipsObj.SetActive(true);
-                RunTipsText.text = "点炮一家付分";
+                //RunTipsText.text = "点炮一家付分";
             }
         });
-        SanjiapaoTipsBtn.onClick.AddListener(() => {
-            if (RunTipsObj.activeSelf)
-            {
-                if (RunTipsText.text == "点炮三家付分")
-                {
-                    RunTipsObj.SetActive(false);
-                }
-                else
-                {
-                    RunTipsText.text = "点炮三家付分";
-                }
-            }
-            else
-            {
-                RunTipsObj.SetActive(true);
-                RunTipsText.text = "点炮三家付分";
-            }
-        });
+        //SanjiapaoTipsBtn.onClick.AddListener(() => {
+        //    if (RunTipsObj.activeSelf)
+        //    {
+        //        if (RunTipsText.text == "点炮三家付分")
+        //        {
+        //            RunTipsObj.SetActive(false);
+        //        }
+        //        else
+        //        {
+        //            RunTipsText.text = "点炮三家付分";
+        //        }
+        //    }
+        //    else
+        //    {
+        //        RunTipsObj.SetActive(true);
+        //        RunTipsText.text = "点炮三家付分";
+        //    }
+        //});
         ApplicationFacade.Instance.RegisterMediator (new CreateRoomMediator (Mediators.HALL_CREATEROOM, this));
 	}
 

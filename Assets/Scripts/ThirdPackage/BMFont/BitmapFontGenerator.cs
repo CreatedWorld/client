@@ -29,7 +29,7 @@ public static class BitmapFontGenerater
 		{
 			Debug.LogError("BitmapFont Create Error -- Texture File is not selected. (フォントテクスチャを選択してください)");
 			return;
-		}
+		} 
 
 		Generate((TextAsset)textAssets[0] , (Texture2D)textures[0]);
 	}

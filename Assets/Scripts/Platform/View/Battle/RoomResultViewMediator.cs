@@ -83,10 +83,10 @@ namespace Platform.View.Battle
             View.winnerIcon.localPosition = new Vector3(View.winnerIcon.localPosition.x + View.itemGap * maxIndex,
                 View.winnerIcon.localPosition.y, 0);
             var hallProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.HALL_PROXY) as HallProxy;
-            View.roomIdTxt.text = String.Format("房间:{0}", hallProxy.HallInfo.roomCode);
+            View.roomIdTxt.text = String.Format("房间号:{0}", hallProxy.HallInfo.roomCode);
             View.roundValueTxt.text = String.Format("{0}/{1}", battleProxy.curInnings, hallProxy.HallInfo.innings.GetHashCode());
-            View.ruleValueTxt.text = hallProxy.HallInfo.gameRule == GameRule.WORD ? "有风" : "无风";
-            View.timeTxt.text = gameMgrProxy.systemDateTime.ToString("yyyy-MM-dd HH:mm");
+            //View.ruleValueTxt.text = hallProxy.HallInfo.gameRule == GameRule.WORD ? "有风" : "无风";
+            View.timeTxt.text = gameMgrProxy.systemDateTime.ToString("yyyy/MM/dd HH:mm");
             View.viewRoot.GetComponent<Animator>().Play("RoomResultOpen");
         }
 

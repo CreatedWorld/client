@@ -309,4 +309,62 @@ namespace Platform.Model
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CoreGMKickUserC2S")]
+  public partial class CoreGMKickUserC2S : global::ProtoBuf.IExtensible
+  {
+    public CoreGMKickUserC2S() {}
+    
+    private readonly global::System.Collections.Generic.List<int> _userIds = new global::System.Collections.Generic.List<int>();
+    [global::ProtoBuf.ProtoMember(1, Name=@"userIds", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<int> userIds
+    {
+      get { return _userIds; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CoreGMKickUserS2C")]
+  public partial class CoreGMKickUserS2C : global::ProtoBuf.IExtensible
+  {
+    public CoreGMKickUserS2C() {}
+    
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CoreGMAddItemC2S")]
+  public partial class CoreGMAddItemC2S : global::ProtoBuf.IExtensible
+  {
+    public CoreGMAddItemC2S() {}
+    
+    private int _userId;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"userId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int userId
+    {
+      get { return _userId; }
+      set { _userId = value; }
+    }
+    private int _itemType;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"itemType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int itemType
+    {
+      get { return _itemType; }
+      set { _itemType = value; }
+    }
+    private int _addNum;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"addNum", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int addNum
+    {
+      get { return _addNum; }
+      set { _addNum = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
 }

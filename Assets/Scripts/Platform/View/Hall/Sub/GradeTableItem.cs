@@ -46,10 +46,10 @@ public class GradeTableItem : TableViewItem {
         scrollViewData = (GradeScrollData)data;
         rankingID.text = (scrollViewData.RankingID + 1).ToString();
         roomCode.text = scrollViewData.RoomCode;
-        time.text = TimeHandle.Instance.GetDateTimeByTimestamp(scrollViewData.Time).ToString("yy-MM-dd HH:mm:ss");
+        time.text = TimeHandle.Instance.GetDateTimeByTimestamp(scrollViewData.Time).ToString("MM-dd HH:mm");
         for (int i = 0;i < scrollViewData.UsersInfo.Count ;i++)
         {
-            userNames[i].text = scrollViewData.UsersInfo[i].userName + ":" + scrollViewData.UsersInfo[i].score.ToString();
+            userNames[i].text =  scrollViewData.UsersInfo[i].score.ToString();//scrollViewData.UsersInfo[i].userName + ":" +
         }
     }
 

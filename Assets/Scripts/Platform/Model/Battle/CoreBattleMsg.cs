@@ -11,4 +11,31 @@
 // Note: requires additional types generated from: ProtoFile/Battle.proto
 namespace Platform.Model
 {
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CoreGMDelRoomC2S")]
+  public partial class CoreGMDelRoomC2S : global::ProtoBuf.IExtensible
+  {
+    public CoreGMDelRoomC2S() {}
+    
+    private int _roomId;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"roomId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int roomId
+    {
+      get { return _roomId; }
+      set { _roomId = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CoreGMDelRoomS2C")]
+  public partial class CoreGMDelRoomS2C : global::ProtoBuf.IExtensible
+  {
+    public CoreGMDelRoomS2C() {}
+    
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
 }

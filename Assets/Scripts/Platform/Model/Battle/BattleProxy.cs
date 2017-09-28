@@ -174,13 +174,12 @@ namespace Platform.Model.Battle
         /// <summary>
         /// 色子点数（第一个表示方向，第二个表示第几摞开始拿）
         /// </summary>
-        public List<int> dices = new List<int>();
+        //public static List<int> dices = new List<int>();
         /// <summary>
         /// 是否进入输入框
         /// </summary>
         public bool isEnterInput = false;
-
-        public bool isGameStart = false;
+        
         /// <summary>
         /// 玩家分数
         /// </summary>
@@ -406,6 +405,7 @@ namespace Platform.Model.Battle
             var selfInfoVO = new PlayerInfoVOS2C();
             var hallProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.HALL_PROXY) as HallProxy;
             var playerInfoProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.PLAYER_PROXY) as PlayerInfoProxy;
+            RoomInfo.RoomId = hallProxy.HallInfo.roomCode;
             selfInfoVO.headIcon = playerInfoProxy.headIconUrl;
             selfInfoVO.isBanker = false;
             selfInfoVO.isMaster = false;
@@ -457,13 +457,51 @@ namespace Platform.Model.Battle
         /// <param PlayerName="bytes">消息体</param>
         private void JoinInRoomHandler(byte[] bytes)
         {
-            isGameStart = false;
+            GlobalData.ComfirSit = true;
             forbitActions = new List<ForbitActionVO>();
             var hallProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.HALL_PROXY) as HallProxy;
             var playerInfoProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.PLAYER_PROXY) as PlayerInfoProxy;
             playerIdInfoDic = new Dictionary<int, PlayerInfoVOS2C>();
             var joinRoomS2C = NetMgr.Instance.DeSerializes<JoinRoomS2C>(bytes);
             playType = joinRoomS2C.playType;
+            RoomInfo.RoomId = joinRoomS2C.roomCode;
+            //RoomInfo.Rule = joinRoomS2C.playType
+            if (joinRoomS2C.innings == 8)
+            {
+                RoomInfo.Round = (joinRoomS2C.curInnings.ToString() +"/8");
+            }else RoomInfo.Round = "一锅";
+            for (int i = 0; i < playType.Count; i++)
+            {
+                if (playType[i] == 44)
+                {
+                    RoomInfo.Rule1 = "【三家炮】";
+                }
+                if (playType[i] == 45)
+                {
+                    RoomInfo.Rule1 = "【一家炮】";
+                }
+                if (playType[i] == 46)
+                {
+                    RoomInfo.Rule2 = "【蛋带翻】";
+                }
+                if (playType[i] == 47)
+                {
+                    RoomInfo.Rule2 += "【蛋不翻】";
+                }
+                if (playType[i] == 48)
+                {
+                    RoomInfo.Rule3 = "【长跑3】";
+                }
+                if (playType[i] == 49)
+                {
+                    RoomInfo.Rule3 = "【长跑5】";
+                }
+                if (playType[i] == 50)
+                {
+                    RoomInfo.Rule3 = "【长跑10】";
+                }
+            }
+            
             innings = joinRoomS2C.innings;
             curInnings = joinRoomS2C.curInnings;
             creatorId = joinRoomS2C.createId;
@@ -525,13 +563,13 @@ namespace Platform.Model.Battle
             {
                 EnterBattle();
             }
-            //if (joinRoomS2C.optUserId != 0)//需要添加这个字段
-            //{
+            if (joinRoomS2C.optUserId != 0)//需要添加这个字段
+            {
 
-            //    GlobalData.sit = playerIdInfoDic[playerInfoProxy.userID].sit;
-            //    GlobalData.optUserId = playerIdInfoDic[joinRoomS2C.optUserId].sit;
-            //    Debug.Log(string.Format("当前玩家的座位号：{0}，轮到{1}家出牌", GlobalData.sit, GlobalData.optUserId));
-            //}
+                GlobalData.sit = playerIdInfoDic[playerInfoProxy.userID].sit;
+                GlobalData.optUserId = playerIdInfoDic[joinRoomS2C.optUserId].sit;
+                Debug.Log(string.Format("当前玩家的座位号：{0}，轮到{1}家出牌", GlobalData.sit, GlobalData.optUserId));
+            }
 
             if (!isReport && GlobalData.LoginServer != "127.0.0.1")
             {
@@ -580,6 +618,7 @@ namespace Platform.Model.Battle
         /// <param PlayerName="bytes"></param>
         private void PushJoinHandler(byte[] bytes)
         {
+            GlobalData.ShowSendCardAnimation = false;
             var pushJoinS2C = NetMgr.Instance.DeSerializes<PushJoinS2C>(bytes);
             playerIdInfoDic.Add(pushJoinS2C.playerInfo.userId, pushJoinS2C.playerInfo);
             UpdatePlayerSitDic();
@@ -679,33 +718,38 @@ namespace Platform.Model.Battle
         /// <param PlayerName="bytes"></param>
         private void GameStartHandler(byte[] bytes)
         {
-            isGameStart = true;
+            GlobalData.ShowSendCardAnimation = true;
             forbitActions = new List<ForbitActionVO>();
             _isForbit = true;
             isStart = true;
             var playerInfoProxy =
                 ApplicationFacade.Instance.RetrieveProxy(Proxys.PLAYER_PROXY) as PlayerInfoProxy;
             var gameStartS2C = NetMgr.Instance.DeSerializes<GameStart_S2C>(bytes);
+            if (RoomInfo.Round != "一锅")
+            {
+                RoomInfo.Round = gameStartS2C.currentTimes.ToString()+"/8";
+            }
+            
             startTime = gameStartS2C.startTime;
             tingCards.Clear();
             score = gameStartS2C.score;
             #region  计算牌堆起始序号
             if (GlobalData.LoginServer != "127.0.0.1")
             {
-                dices = gameStartS2C.dices;
+                GlobalData.dices = gameStartS2C.dices;
             }
             else
             {
                 List<int> list = new List<int>() { 1, 5 };
-                dices = list;
+                GlobalData.dices = list;
             }
             List<int> playerIndex = new List<int>();
-            playerIndex.Add(dices[1] * 2);
-            playerIndex.Add(34 + (dices[1] * 2));
-            playerIndex.Add(2 * 34 + (dices[1] * 2));
-            playerIndex.Add(3 * 34 + (dices[1] * 2));
+            playerIndex.Add(GlobalData.dices[1] * 2);
+            playerIndex.Add(34 + (GlobalData.dices[1] * 2));
+            playerIndex.Add(2 * 34 + (GlobalData.dices[1] * 2));
+            playerIndex.Add(3 * 34 + (GlobalData.dices[1] * 2));
 
-            int cardIndex = (dices[0] + 4) % 4;
+            int cardIndex = (GlobalData.dices[0] + 4) % 4;
             if (playerIdInfoDic[playerInfoProxy.userID].sit == 1)
             {
                 if (cardIndex == 1)
@@ -839,11 +883,11 @@ namespace Platform.Model.Battle
             GlobalData.sit = playerIdInfoDic[playerInfoProxy.userID].sit;
             GlobalData.optUserId = playerIdInfoDic[gameStartS2C.bankerUserId].sit;
 
-            SendNotification(NotificationConstant.MEDI_BATTLE_PLAYROTATE);
             SendNotification(NotificationConstant.MEDI_BATTLEVIEW_UPDATEALLHEAD);
             //SendNotification(NotificationConstant.MEDI_BATTLEVIEW_UPDATESCORE);
             SendNotification(NotificationConstant.MEDI_BATTLE_SENDCARD);
-        }
+            SendNotification(NotificationConstant.MEDI_BATTLE_PLAYROTATE);
+        } 
         
 
         /// <summary>
@@ -894,8 +938,8 @@ namespace Platform.Model.Battle
             SetPlayerActTipS2C(curActTips);
             isSelfAction = GetPlayerActTipS2C().optUserId == playerInfoProxy.userID;
 
-            //GlobalData.sit = playerIdInfoDic[playerInfoProxy.UserInfo.UserID].sit;
-            //GlobalData.optUserId = playerIdInfoDic[playerActTipS2C.optUserId].sit;
+            GlobalData.sit = playerIdInfoDic[playerInfoProxy.userID].sit;
+            GlobalData.optUserId = playerIdInfoDic[GetPlayerActTipS2C().optUserId].sit;
 
             if (isStart)
                 SendNotification(NotificationConstant.MEDI_BATTLE_PLAYACTTIP);
@@ -1561,16 +1605,17 @@ namespace Platform.Model.Battle
             var disloveApplyS2C = NetMgr.Instance.DeSerializes<ApplyDissolveRoomS2C>(bytes);
             var playerInfoProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.PLAYER_PROXY) as PlayerInfoProxy;
             var gameMgrProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.GAMEMGR_PROXY) as GameMgrProxy;
-            disloveApplyUserId = disloveApplyS2C.userId;
-            agreeIds.Add(disloveApplyS2C.userId);
-            hasDisloveApply = true;
-            disloveRemainTime = GlobalData.DISLOVE_APPLY_TIMEOUT;
-            disloveRemainUT = gameMgrProxy.systemTime;
             if (disloveApplyS2C.userId == playerInfoProxy.userID)//自己的申请忽略
             {
                 UIManager.Instance.ShowUI(UIViewID.DISLOVE_STATISTICS_VIEW);
                 return;
             }
+            disloveApplyUserId = disloveApplyS2C.userId;
+            agreeIds.Add(disloveApplyS2C.userId);
+            hasDisloveApply = true;
+            disloveRemainTime = GlobalData.DISLOVE_APPLY_TIMEOUT;
+            disloveRemainUT = gameMgrProxy.systemTime;
+            
             UIManager.Instance.ShowUI(UIViewID.DISLOVE_APPLY_VIEW);
         }
 

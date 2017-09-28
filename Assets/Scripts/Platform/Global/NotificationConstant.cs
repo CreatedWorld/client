@@ -208,7 +208,10 @@ public class NotificationConstant
     /// 准备下一局
     /// </summary>
     public const string READY_NEXT = "READY_NEXT";
-
+    /// <summary>
+    /// 隐藏色子
+    /// </summary>
+    //public const string HIDESAIZI = "HIDESAIZI";
     /// <summary>
     /// 刷新签到界面
     /// </summary>

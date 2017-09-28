@@ -50,14 +50,18 @@ public class MasterView : MonoBehaviour
     /// 庄家标志
     /// </summary>
     private SpriteRenderer masterIcon;
-    private bool ComfirSit = false;
+
     /// <summary>
     /// 出牌剩余时间
     /// </summary>
     private TextMesh remainTimeTxt;
 
-    private SpriteRenderer colorEastIcon;
+    private List<SpriteRenderer> dirColorHighLight = new List<SpriteRenderer>();
     GameObject eastIcon;
+    GameObject southIcon;
+    GameObject westIcon;
+    GameObject northIcon;
+    Color noAlphaColor = new Color(1,1,1,0);
     // Use this for initialization
     void Awake()
     {
@@ -68,10 +72,10 @@ public class MasterView : MonoBehaviour
         playerInfoProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.PLAYER_PROXY) as PlayerInfoProxy;
         remainTimeTxt = transform.Find("RemainTimeTxt").GetComponent<TextMesh>();
         masterIcon = transform.Find("MasterIcon").GetComponent<SpriteRenderer>();
-         eastIcon = transform.Find("EastIcon").gameObject;
-        var southIcon = transform.Find("SouthIcon").gameObject;
-        var westIcon = transform.Find("WestIcon").gameObject;
-        var northIcon = transform.Find("NorthIcon").gameObject;
+        eastIcon = transform.Find("EastIcon").gameObject;
+        southIcon = transform.Find("SouthIcon").gameObject;
+        westIcon = transform.Find("WestIcon").gameObject;
+        northIcon = transform.Find("NorthIcon").gameObject;
         dirIconArr.Add(eastIcon);
         dirIconArr.Add(southIcon);
         dirIconArr.Add(westIcon);
@@ -82,28 +86,32 @@ public class MasterView : MonoBehaviour
         dirIconPostionArr.Add(northIcon.transform.localPosition);
         arrowContainer = transform.Find("ArrowContainer");
         arrowIcon = transform.Find("ArrowContainer/ArrowIcon").GetComponent<SpriteRenderer>();
-        
+
     }
 
     private void Start()
     {
-        colorEastIcon = eastIcon.transform.GetComponent<SpriteRenderer>();
+        dirColorHighLight.Add(eastIcon.transform.GetComponent<SpriteRenderer>());
+        dirColorHighLight.Add(northIcon.transform.GetComponent<SpriteRenderer>());
+        dirColorHighLight.Add(westIcon.transform.GetComponent<SpriteRenderer>());
+        dirColorHighLight.Add(southIcon.transform.GetComponent<SpriteRenderer>());
     }
 
     // Update is called once per frame
     void Update()
     {
-        colorEastIcon.color  = new Color(1,1,1, Mathf.PingPong(Time.time*2,1));
-        if (battleProxy.isStart && !ComfirSit)
+        OperateUserHightLight();
+        if (battleProxy.isStart && GlobalData.ComfirSit)
         {
-            ComfirSit = true;
+            GlobalData.ComfirSit = false;
             if (battleProxy.playerIdInfoDic[playerInfoProxy.userID].sit == 1)
             {
                 gameObject.transform.localPosition = new Vector3(-0.009f, 0.029f, 0.055f);
-                gameObject.transform.localEulerAngles = new Vector3(50,0,0);
-            }else if (battleProxy.playerIdInfoDic[playerInfoProxy.userID].sit == 2)
+                gameObject.transform.localEulerAngles = new Vector3(50, 0, 0);
+            }
+            else if (battleProxy.playerIdInfoDic[playerInfoProxy.userID].sit == 2)
             {
-                gameObject.transform.localPosition = new Vector3(-0.003f,0.029f,0.055f);
+                gameObject.transform.localPosition = new Vector3(-0.003f, 0.029f, 0.055f);
                 gameObject.transform.localEulerAngles = new Vector3(50f, 0, -90);
             }
             else if (battleProxy.playerIdInfoDic[playerInfoProxy.userID].sit == 3)
@@ -118,7 +126,26 @@ public class MasterView : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// 显示哪个方向高亮
+    /// </summary>
+    private void OperateUserHightLight()
+    {
+        if (GlobalData.optUserId < 0)
+            return; 
+       
+        dirColorHighLight[GlobalData.optUserId - 1].color = new Color(1, 1, 1, Mathf.PingPong(Time.time * 2, 1));
+        SetNormalLight();
+    }
+    private void SetNormalLight()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (GlobalData.optUserId - 1 == i) continue;
+            if (dirColorHighLight[i].color != Color.white)
+                dirColorHighLight[i].color = noAlphaColor;
+        }
+    }
 
     /// <summary>
     /// 开始播放庄家旋转动画
@@ -133,7 +160,7 @@ public class MasterView : MonoBehaviour
     /// </summary>
     public void DispatchStartRotate()
     {
-        GameMgr.Instance.StartCoroutine(AudioSystem.Instance.PlayEffectAudio("Voices/Effect/MasterRotate",0,true));
+        GameMgr.Instance.StartCoroutine(AudioSystem.Instance.PlayEffectAudio("Voices/Effect/MasterRotate", 0, true));
         rotateTimeId = Timer.Instance.AddTimer(0.08f, 0, 0.08f, UpdateRotateAngle);
     }
 
@@ -142,7 +169,7 @@ public class MasterView : MonoBehaviour
     /// </summary>
     private void UpdateRotateAngle()
     {
-        arrowContainer.localEulerAngles = new Vector3(0,0, arrowContainer.localEulerAngles.z + 90);
+        arrowContainer.localEulerAngles = new Vector3(0, 0, arrowContainer.localEulerAngles.z + 90);
     }
 
     /// <summary>
@@ -232,7 +259,8 @@ public class MasterView : MonoBehaviour
                 //var nextSitId = GlobalData.GetNextSit(tipPlayerVO.sit, 1);
                 //tipPlayerVO = battleProxy.playerSitInfoDic[nextSitId];
             }
-        }else if (battleProxy.curGuide == GuideType.ACT)
+        }
+        else if (battleProxy.curGuide == GuideType.ACT)
         {
             tipPlayerVO = battleProxy.playerIdInfoDic[battleProxy.GetPlayerActS2C().userId];
             if (battleProxy.GetPlayerActS2C().act == PlayerActType.PASS)
@@ -295,7 +323,7 @@ public class MasterView : MonoBehaviour
                 curRemainTime = battleProxy.GetPlayerActTipS2C().tipRemainTime - (gameMgrProxy.systemTime - battleProxy.GetPlayerActTipS2C().tipRemainUT) / 1000;
             }
         }
-        
+
         curRemainTime = Mathf.Max(curRemainTime, 0);
         curRemainTime = Mathf.Ceil(curRemainTime);
         remainTimeTxt.gameObject.SetActive(true);

@@ -46,12 +46,17 @@ public class BattleMgr : MonoBehaviour
     [HideInInspector]
     public MasterView masterView;
     /// <summary>
-    /// 色子1
+    /// 色子
+    /// </summary>
+    [HideInInspector]
+    public GameObject saizi;
+    /// <summary>
+    /// 色子
     /// </summary>
     [HideInInspector]
     public GameObject saizi1;
     /// <summary>
-    /// 色子2
+    /// 色子
     /// </summary>
     [HideInInspector]
     public GameObject saizi2;
@@ -79,6 +84,9 @@ public class BattleMgr : MonoBehaviour
         leftArea = transform.Find("LeftArea").gameObject.GetComponent<BattleAreaItem>();
         cardArrowIcon = transform.Find("CardArrowIcon").gameObject;
         masterView = transform.Find("MasterContainer/MasterView").GetComponent<MasterView>();
+        saizi = transform.Find("saizi").gameObject;
+        saizi1 = transform.Find("saizi/saizi1").gameObject;
+        saizi2 = transform.Find("saizi/saizi2").gameObject;
         cardArrowIcon.SetActive(false);
         battleAreaItems.Add(downArea);
         battleAreaItems.Add(rightArea);
@@ -92,8 +100,8 @@ public class BattleMgr : MonoBehaviour
 
         recorder = new RecorderSystem();
 
-        saizi1Clip = Resources.Load<AnimationClip>("Animation/saizi1");
-        saizi2Clip = Resources.Load<AnimationClip>("Animation/saizi2");
+        //saizi1Clip = Resources.Load<AnimationClip>("Animation/saizi1");
+        //saizi2Clip = Resources.Load<AnimationClip>("Animation/saizi2");
 
         UIManager.Instance.ShowUI(UIViewID.BATTLE_VIEW);
     }

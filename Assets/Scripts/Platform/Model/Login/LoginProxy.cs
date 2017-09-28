@@ -43,6 +43,30 @@ public class LoginProxy : Proxy, IProxy
             NetMgr.Instance.StopTcpConnection(SocketType.LOGIN);
             NetMgr.Instance.CreateConnect(SocketType.HALL, hallServerIP, hallServerPort, HallConnectHandler);
         }
+        else if (loginStatus == 2)
+        {
+            DialogMsgVO dialogVO = new DialogMsgVO();
+            dialogVO.dialogType = DialogType.ALERT;
+            dialogVO.title = "登录失败";
+            dialogVO.content = "版本过低,请点击确认下载最新版本";
+            dialogVO.confirmCallBack = () =>
+            {
+                if (Application.platform == RuntimePlatform.Android)
+                {
+                    Application.OpenURL(package.androidUrl);
+                }
+                else if (Application.platform == RuntimePlatform.IPhonePlayer)
+                {
+                    Application.OpenURL(package.iosUrl);
+                }
+                else
+                {
+                    Application.OpenURL(package.androidUrl);
+                }
+            };
+            DialogView dialogView = UIManager.Instance.ShowUI(UIViewID.DIALOG_VIEW) as DialogView;
+            dialogView.data = dialogVO;
+        }
         else
         {
             DialogMsgVO dialogVO = new DialogMsgVO();

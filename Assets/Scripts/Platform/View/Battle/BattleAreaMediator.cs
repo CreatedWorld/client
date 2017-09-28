@@ -17,6 +17,10 @@ using DG.Tweening;
 public class BattleAreaMediator : Mediator, IMediator
 {
     /// <summary>
+    /// 色子
+    /// </summary>
+    private Animator saiziAnimator;
+    /// <summary>
     /// 游戏数据中介
     /// </summary>
     private GameMgrProxy gameMgrProxy;
@@ -28,7 +32,7 @@ public class BattleAreaMediator : Mediator, IMediator
     /// 战斗模块数据中介
     /// </summary>
     private BattleProxy battleProxy;
-    
+
     public BattleAreaMediator(string mediatorName, object viewComponent) : base(mediatorName, viewComponent)
     {
 
@@ -81,7 +85,7 @@ public class BattleAreaMediator : Mediator, IMediator
         battleProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.BATTLE_PROXY) as BattleProxy;
         gameMgrProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.GAMEMGR_PROXY) as GameMgrProxy;
         playerInfoProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.PLAYER_PROXY) as PlayerInfoProxy;
-       
+
         View.recorder.OnReComplete = SendAudioToServer;
         View.recorder.OnGetComplete = PlayAudio;
         AudioSystem.Instance.PlayBgm("Voices/Bgm/91bgmusic");
@@ -99,7 +103,7 @@ public class BattleAreaMediator : Mediator, IMediator
         switch (notification.Name)
         {
             case NotificationConstant.MEDI_BATTLE_SENDCARD:
-                GameMgr.Instance.StartCoroutine(PlaySendCardAnimator()); 
+                GameMgr.Instance.StartCoroutine(PlaySendCardAnimator());
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAY_COMMONANGANG:
                 PlayCommonAnGang();
@@ -107,27 +111,27 @@ public class BattleAreaMediator : Mediator, IMediator
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAY_BACKANGANG:
                 PlayBackAnGang();
-                
+
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAYGETCARD:
                 PlayGetCard();
-                
+
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAYPASS:
                 PlayPass();
-                
+
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAYPENG:
                 PlayPeng();
-                
+
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAYCHI:
                 PlayChi();
-                
+
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAY_COMMONPENGGANG:
                 PlayCommonPengGang();
-                
+
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAY_BACKPENGGANG:
                 PlayBackPengGang();
@@ -143,7 +147,7 @@ public class BattleAreaMediator : Mediator, IMediator
                 break;
             case NotificationConstant.MEDI_BATTLE_PLAYHU:
                 PlayHu((bool)notification.Body);
-                SetCardColor(null,false);
+                SetCardColor(null, false);
                 break;
             case NotificationConstant.MEDI_BATTLEVIEW_SHOWMATCHRESULT:
                 SaveAllCard();
@@ -155,7 +159,7 @@ public class BattleAreaMediator : Mediator, IMediator
                     areaItem.SaveAllCard();
                 }
                 View.cardArrowIcon.SetActive(false);
-                ResourcesMgr.Instance.RecoveryAll(); 
+                ResourcesMgr.Instance.RecoveryAll();
                 break;
             case NotificationConstant.MEDI_BATTLEREA_STARTRECORD:
                 View.recorder.Recording();
@@ -189,6 +193,7 @@ public class BattleAreaMediator : Mediator, IMediator
             case NotificationConstant.MEDI_ROOM_CHENDIAO:
                 SetCardColor(notification.Body as List<int>, true);
                 break;
+            
         }
     }
     /// <summary>
@@ -201,7 +206,7 @@ public class BattleAreaMediator : Mediator, IMediator
             var selfInfoVO = battleProxy.playerIdInfoDic[playerInfoProxy.userID];
             for (int i = 0; i < View.battleAreaItems.Count; i++)
             {
-                View.battleAreaItems[i].data = battleProxy.playerSitInfoDic[selfInfoVO.sit];//GlobalData.GetNextSit(selfInfoVO.sit, i)
+                View.battleAreaItems[i].data = battleProxy.playerSitInfoDic[GlobalData.GetNextSit(selfInfoVO.sit, i)];//selfInfoVO.sit
             }
             //View.masterView.UpdateMasterInfo(true);
             //View.masterView.ShowPlayActTip();
@@ -214,25 +219,42 @@ public class BattleAreaMediator : Mediator, IMediator
     /// </summary>
     private void PlayRotate()
     {
-        //isFirstMatch = false;
-        //if (false)//第一局需要转庄家
-        //{
-        //   // View.masterView.PlayRotate();
-        //}
-        //else
-        //{
-            
-        //}
-
-        //View.saizi1.GetComponent<Animator>().Play("saizi1");
-        //View.saizi2.GetComponent<Animator>().Play("saizi2");
-        
-        //View.masterView.UpdateMasterInfo(true);
-        //View.masterView.ShowPlayActTip();
-        //SendNotification(NotificationConstant.MEDI_BATTLE_SENDCARD);
+        View.saizi.SetActive(true);
+        saiziAnimator = View.saizi.GetComponent<Animator>();
+        saiziAnimator.Play("saizirotae");
+        GameMgr.Instance.StartCoroutine(SetNumSaizi(GlobalData.dices));
     }
 
-
+    private void HideRotaeSaizi()
+    {
+        View.saizi.SetActive(false);
+    }
+    private IEnumerator SetNumSaizi(List<int> dices)
+    {
+        yield return new WaitForSeconds(2f);
+        if (dices.Count <= 0) Debug.Log("dices count = 0");
+        RotaeAngle(dices[0], View.saizi1);
+        RotaeAngle(dices[1], View.saizi2);
+        //while (true)
+        //{
+        //    if (info.normalizedTime >= 1.0f && dices.Count > 0)
+        //    {
+        //        RotaeAngle(dices[0], View.saizi.transform.FindChild("saizi1").gameObject);
+        //        RotaeAngle(dices[1], View.saizi.transform.FindChild("saizi2").gameObject);
+        //        break;
+        //    }
+        //}
+    }
+    void RotaeAngle(int i, GameObject go)
+    {
+        if (i == 1) go.transform.localEulerAngles = Vector3.zero;
+        if (i == 2) go.transform.localEulerAngles = new Vector3(90, 0, 0);
+        if (i == 3) go.transform.localEulerAngles = new Vector3(0, 0, 90);
+        if (i == 4) go.transform.localEulerAngles = new Vector3(0, 0, -90);
+        if (i == 5) go.transform.localEulerAngles = new Vector3(-90, 0, 0);
+        if (i == 6) go.transform.localEulerAngles = new Vector3(180, 0, 0);
+        //GameMgr.Instance.StopCoroutine("SetNumSaizi");
+    }
     /// <summary>
     /// 播放发牌动画
     /// </summary>
@@ -252,11 +274,9 @@ public class BattleAreaMediator : Mediator, IMediator
                 BattleAreaUtil.InitHeapCard(areaItem, GlobalData.CardWare.Length);
             }
         }
-        //Debug.Log("色子动画...");
-        //View.saizi1.GetComponent<Animation>().Play();
-        //View.saizi2.GetComponent<Animation>().Play("saizi2");
-        //yield return new WaitForSeconds(2);
-        //yield break;
+        yield return new WaitForSeconds(4f);
+        HideRotaeSaizi();
+        //Facade.SendNotification(NotificationConstant.HIDESAIZI);
 
         var selfInfoVO = battleProxy.playerIdInfoDic[playerInfoProxy.userID];
         var sendStartIndex = (battleProxy.GetBankerPlayerInfoVOS2C().sit - selfInfoVO.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
@@ -264,7 +284,7 @@ public class BattleAreaMediator : Mediator, IMediator
         {
             View.battleAreaItems[i].SetData(battleProxy.playerSitInfoDic[GlobalData.GetNextSit(selfInfoVO.sit, i)]);
         }
-        int sendCount = Mathf.CeilToInt((float)GlobalData.PLAYER_CARD_NUM / GlobalData.SEND_SINGLE) *GlobalData.SIT_NUM;
+        int sendCount = Mathf.CeilToInt((float)GlobalData.PLAYER_CARD_NUM / GlobalData.SEND_SINGLE) * GlobalData.SIT_NUM;
         for (int i = 0; i < sendCount; i++)
         {
             GameMgr.Instance.StartCoroutine(View.battleAreaItems[(i + sendStartIndex) % GlobalData.SIT_NUM].PlaySendCardAnimator());
@@ -284,12 +304,12 @@ public class BattleAreaMediator : Mediator, IMediator
     /// 手牌 变灰-正常
     /// </summary>
     /// <param name="card"></param>
-    private void SetCardColor(List<int> card,bool isGray)
+    private void SetCardColor(List<int> card, bool isGray)
     {
         var selfInfoVO = battleProxy.playerIdInfoDic[playerInfoProxy.userID];
         var actPlayerInfoVO = battleProxy.playerIdInfoDic[battleProxy.GetPlayerActS2C().userId];
         var actIndex = (actPlayerInfoVO.sit - selfInfoVO.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
-        
+
         if (isGray)
         {
             View.battleAreaItems[actIndex].SetHandCardsGray(card, false);
@@ -349,7 +369,7 @@ public class BattleAreaMediator : Mediator, IMediator
         var actIndex = (actPlayerInfoVO.sit - selfInfoVO.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
         View.battleAreaItems[actIndex].PlayPass();
     }
-    
+
     /// <summary>
     /// 播放碰牌动作
     /// </summary>
@@ -416,12 +436,12 @@ public class BattleAreaMediator : Mediator, IMediator
         var selfInfoVO = battleProxy.playerIdInfoDic[playerInfoProxy.userID];
         var actPlayerInfoVO = battleProxy.playerIdInfoDic[battleProxy.GetPlayerActS2C().userId];
         var actIndex = (actPlayerInfoVO.sit - selfInfoVO.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
-        Debug.Log("selfInfoVO.sit = " + selfInfoVO.sit + "  actPlayerInfoVO.sit = "+ actPlayerInfoVO.sit);
+        Debug.Log("selfInfoVO.sit = " + selfInfoVO.sit + "  actPlayerInfoVO.sit = " + actPlayerInfoVO.sit);
         //if (PlayerPrefs.GetInt(battleProxy.GetPlayerActS2C().userId.ToString()) == 1)
         //{
         //    List<int> list = new List<int>();
         //    list.Add(-1);
-         //   View.battleAreaItems[actIndex].SetHandCardsGray(list, true);
+        //   View.battleAreaItems[actIndex].SetHandCardsGray(list, true);
         //}
         GameMgr.Instance.StartCoroutine(View.battleAreaItems[actIndex].PlayPutCard());
 
@@ -525,7 +545,8 @@ public class BattleAreaMediator : Mediator, IMediator
         //打开本局结算界面
         if (!battleProxy.isPlayHu)
         {
-            Timer.Instance.AddTimer(0, 1, 0.5f, () => {
+            Timer.Instance.AddTimer(0, 1, 0.5f, () =>
+            {
                 UIManager.Instance.ShowUI(UIViewID.MATCH_RESULT_VIEW);
             });
         }

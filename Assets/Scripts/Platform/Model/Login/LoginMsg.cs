@@ -50,6 +50,14 @@ namespace Platform.Model
       get { return _sex; }
       set { _sex = value; }
     }
+    private long _version = default(long);
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"version", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::System.ComponentModel.DefaultValue(default(long))]
+    public long version
+    {
+      get { return _version; }
+      set { _version = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -94,6 +102,22 @@ namespace Platform.Model
     {
       get { return _time; }
       set { _time = value; }
+    }
+    private string _iosUrl = "";
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"iosUrl", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string iosUrl
+    {
+      get { return _iosUrl; }
+      set { _iosUrl = value; }
+    }
+    private string _androidUrl = "";
+    [global::ProtoBuf.ProtoMember(7, IsRequired = false, Name=@"androidUrl", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string androidUrl
+    {
+      get { return _androidUrl; }
+      set { _androidUrl = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

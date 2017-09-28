@@ -64,7 +64,7 @@ public class BottomMenuView : UIView
         //UIManager.Instance.BringToBottom(UIViewID.BOTTOMMENU_VIEW);
 
         MenuBtn.onClick.AddListener(()=> {
-            if (PanelObj.activeSelf) { PanelObj.SetActive(false); } else PanelObj.SetActive(true);
+            if (!PanelObj.activeSelf)  PanelObj.SetActive(true);
         });
 
         ExitBtn.onClick.AddListener(()=> {

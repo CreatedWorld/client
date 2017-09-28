@@ -41,6 +41,7 @@ public class GradeMediator : Mediator, IMediator
             case NotificationConstant.MEDI_HALL_VIEWROOM_RECORD:
                 this.View.RecordScrollView.SetActive(false);
                 this.View.ParticularsScrollView.SetActive(true);
+                View.RecordTitleObj.SetActive(false);
                 break;
             case NotificationConstant.MEDI_HALL_GETGRADEINFO:
                 this.SendGetGrade();

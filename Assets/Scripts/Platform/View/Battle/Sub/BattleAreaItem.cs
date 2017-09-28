@@ -906,6 +906,11 @@ public class BattleAreaItem : MonoBehaviour
             }
         }
     }
+    public void RecoveryAllCarColor(Transform t)
+    {
+        t.GetComponent<MeshRenderer>().material.color = Color.white;
+        t.GetComponent<BoxCollider>().enabled = true;
+    }
 
     /// <summary>
     /// 播放直接碰杠动作
@@ -1261,6 +1266,7 @@ public class BattleAreaItem : MonoBehaviour
     /// </summary>
     public void SaveAllCard()
     {
+        
         List<GameObject> needSaveCard = new List<GameObject>();
         foreach (Transform card in handCardContainer)
         {
@@ -1300,6 +1306,7 @@ public class BattleAreaItem : MonoBehaviour
         }
         foreach (GameObject item in needSaveCard)
         {
+            RecoveryAllCarColor(item.transform);
             ResourcesMgr.Instance.Add2Pool(item);
         }
         pengGangCards.Clear();

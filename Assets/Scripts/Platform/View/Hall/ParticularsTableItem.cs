@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Platform.Model;
 using Platform.Net;
+using System.Collections;
 /// <summary>
 /// 对战信息View
 /// </summary>
@@ -20,13 +21,34 @@ public class ParticularsTableItem : TableViewItem {
     /// </summary>
     private Text roundNumText;
     /// <summary>
+    /// 对战时间
+    /// </summary>
+    private Text playTiemText;
+    /// <summary>
     /// 时间
     /// </summary>
     private Text time;
     /// <summary>
+    /// 头像
+    /// </summary>
+    private RawImage HeadImg1;
+    /// <summary>
+    /// 头像
+    /// </summary>
+    private RawImage HeadImg2;
+    /// <summary>
+    /// 头像
+    /// </summary>
+    private RawImage HeadImg3;
+    /// <summary>
+    /// 头像
+    /// </summary>
+    private RawImage HeadImg4;
+    /// <summary>
     /// 参赛者信息
     /// </summary>
     private List<Text> userNames;
+
     /// <summary>
     /// 对战信息数据
     /// </summary>
@@ -43,13 +65,19 @@ public class ParticularsTableItem : TableViewItem {
         }
         base.Updata(data);
         particularsScrollData = (ParticularsScrollData)data;
-        roundNumText.text = "第" + particularsScrollData.ScrollID.ToString() + "场";
-        roomNumText.text = particularsScrollData.RoomCode;
-        time.text = TimeHandle.Instance.GetDateTimeByTimestamp(particularsScrollData.Time).ToString("yy-MM-dd HH:mm:ss");
+        playTiemText.text = "对战时间:"+ TimeHandle.Instance.GetDateTimeByTimestamp(particularsScrollData.Time).ToString("HH:mm:ss"); ;
+        roomNumText.text ="房间号:"+ particularsScrollData.RoomCode;
+        time.text = "日期:"+TimeHandle.Instance.GetDateTimeByTimestamp(particularsScrollData.Time).ToString("yy/MM/dd");
         for (int i = 0; i < particularsScrollData.UsersInfo.Count ; i++)
         {
-            userNames[i].text = particularsScrollData.UsersInfo[i].userName + ":" + particularsScrollData.UsersInfo[i].score.ToString();
+            userNames[i].text = particularsScrollData.UsersInfo[i].userName + "\r\n" + particularsScrollData.UsersInfo[i].score.ToString();
         }
+        string str = particularsScrollData.UsersInfo[0].headImgUrl;
+        Debug.Log(str);
+        StartCoroutine(DownHeadImg(HeadImg1,particularsScrollData.UsersInfo[0].headImgUrl));
+        StartCoroutine(DownHeadImg(HeadImg2, particularsScrollData.UsersInfo[1].headImgUrl));
+        StartCoroutine(DownHeadImg(HeadImg3, particularsScrollData.UsersInfo[2].headImgUrl));
+        StartCoroutine(DownHeadImg(HeadImg4, particularsScrollData.UsersInfo[3].headImgUrl));
     }
 
     private void Awake()
@@ -58,7 +86,14 @@ public class ParticularsTableItem : TableViewItem {
         roundNumText = transform.FindChild("RoundNum").GetComponent<Text>();
         time = transform.FindChild("RoundTime").GetComponent<Text>();
         playbackButton = transform.FindChild("PlaybackButton").GetComponent<Button>();
+        playTiemText = transform.FindChild("PlayTime").GetComponent<Text>();
         playbackButton.onClick.AddListener(SendPlayback);
+
+        HeadImg1 = transform.FindChild("information_back/information_back_1/head").GetComponent<RawImage>();
+        HeadImg2 = transform.FindChild("information_back/information_back_2/head").GetComponent<RawImage>();
+        HeadImg3 = transform.FindChild("information_back/information_back_3/head").GetComponent<RawImage>();
+        HeadImg4 = transform.FindChild("information_back/information_back_4/head").GetComponent<RawImage>();
+
         userNames = new List<Text>();
         foreach (Transform particularsInfo in transform.FindChild("Players"))
         {
@@ -66,6 +101,21 @@ public class ParticularsTableItem : TableViewItem {
         }
     }
 
+    /// <summary>
+	/// 下载头像
+	/// </summary>
+	/// <param name="headUrl"></param>
+	/// <returns></returns>
+	IEnumerator DownHeadImg(RawImage img,string headUrl)//RawImage img,
+    {
+        WWW www = new WWW(headUrl);
+        yield return www;
+        if (www.error == null)
+        {
+            img.texture = www.texture;
+            //HeadImg1.texture = www.texture;
+        }
+    }
     /// <summary>
     /// 回放按钮
     /// </summary>

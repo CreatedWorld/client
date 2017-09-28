@@ -48,7 +48,7 @@ public class RoomHeadItem : MonoBehaviour
     /// <summary>
     ///     接炮次数
     /// </summary>
-    private Text otherHuValueTxt;
+    //private Text otherHuValueTxt;
 
     /// <summary>
     ///     获得积分
@@ -56,9 +56,9 @@ public class RoomHeadItem : MonoBehaviour
     private Text scoreValueTxt;
 
     /// <summary>
-    ///     自摸次数
+    ///     胡牌次数
     /// </summary>
-    private Text selfHuValueTxt;
+    private Text HuValueTxt;
 
     // Use this for initialization
     void Awake()
@@ -66,8 +66,8 @@ public class RoomHeadItem : MonoBehaviour
         headIcon = transform.Find("HeadIcon").GetComponent<RawImage>();
         nameTxt = transform.Find("NameTxt").GetComponent<Text>();
         idTxt = transform.Find("IDTxt").GetComponent<Text>();
-        selfHuValueTxt = transform.Find("SelfHuValueTxt").GetComponent<Text>();
-        otherHuValueTxt = transform.Find("OtherHuValueTxt").GetComponent<Text>();
+        HuValueTxt = transform.Find("HuValueTxt").GetComponent<Text>();
+        //otherHuValueTxt = transform.Find("OtherHuValueTxt").GetComponent<Text>();
         huedValueTxt = transform.Find("HuedValueTxt").GetComponent<Text>();
         anGangValueTxt = transform.Find("AnGangValueTxt").GetComponent<Text>();
         mingGangValueTxt = transform.Find("MingGangValueTxt").GetComponent<Text>();
@@ -87,8 +87,8 @@ public class RoomHeadItem : MonoBehaviour
             GameMgr.Instance.StartCoroutine(DownIcon(playerInfoVO.headIcon));
             nameTxt.text = playerInfoVO.name;
             idTxt.text = String.Format("ID:{0}", playerInfoVO.userId);
-            selfHuValueTxt.text = value.selfHuCount.ToString();
-            otherHuValueTxt.text = value.otherHuCount.ToString();
+            HuValueTxt.text =  (value.selfHuCount+ value.otherHuCount).ToString();
+            //otherHuValueTxt.text = value.otherHuCount.ToString();
             huedValueTxt.text = value.sendPaoCount.ToString();
             anGangValueTxt.text = value.anGangCount.ToString();
             mingGangValueTxt.text = value.mingGangCount.ToString();

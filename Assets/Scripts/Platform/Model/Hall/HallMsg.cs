@@ -624,6 +624,14 @@ namespace Platform.Model
       get { return _score; }
       set { _score = value; }
     }
+    private string _headImgUrl = "";
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"headImgUrl", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string headImgUrl
+    {
+      get { return _headImgUrl; }
+      set { _headImgUrl = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }

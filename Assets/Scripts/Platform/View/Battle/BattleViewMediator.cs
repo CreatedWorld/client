@@ -292,6 +292,7 @@ public class BattleViewMediator : Mediator, IMediator
         var actPlayerInfoVO = battleProxy.playerIdInfoDic[id];//battleProxy.GetPlayerActS2C().userId
         var actIndex = (actPlayerInfoVO.sit - selfInfoVO.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
         View.headItemList[actIndex].GetComponent<HeadItem>().touheObj.SetActive(true);
+        
     }
     /// <summary>
     /// 点击投河
@@ -317,6 +318,7 @@ public class BattleViewMediator : Mediator, IMediator
     private void InitView()
     {
         UpdateAllHeadItem();//false
+        View.roomIdTxt.text = RoomInfo.RoomId;
         if (battleProxy.isStart)
         {
             if (battleProxy.GetPlayerActTipS2C() != null)
@@ -365,7 +367,7 @@ public class BattleViewMediator : Mediator, IMediator
                 }
             }
         }
-        if(battleProxy.isGameStart)
+        if(battleProxy.isStart && GlobalData.ShowSendCardAnimation)
         {
             SendNotification(NotificationConstant.MEDI_BATTLE_PLAYROTATE);
             //SendNotification(NotificationConstant.MEDI_BATTLEVIEW_UPDATEALLHEAD);
@@ -422,17 +424,20 @@ public class BattleViewMediator : Mediator, IMediator
     private void UpdateAllHeadItem()
     {
         var selfInfoVO = battleProxy.playerIdInfoDic[playerInfoProxy.userID];
+        
         for (var i = 0; i < View.headItemList.Count; i++)
         {
             var nextSit = GlobalData.GetNextSit(selfInfoVO.sit , i);
             if (!battleProxy.playerSitInfoDic.ContainsKey(nextSit))
             {
                 View.headItemList[i].GetComponent<HeadItem>().data = null;
+
             }
             else
             {
                 var nextPlayerInfoVOS2C = battleProxy.playerSitInfoDic[nextSit];
                 View.headItemList[i].GetComponent<HeadItem>().data = nextPlayerInfoVOS2C;
+                View.headItemList[i].transform.FindChild("Head").gameObject.SetActive(true);
                 //if (isFirstMatch)
                 //{
                 //    View.headItemList[i].GetComponent<HeadItem>().HidemBanker();
@@ -450,6 +455,7 @@ public class BattleViewMediator : Mediator, IMediator
         var selfInfoVO = battleProxy.playerIdInfoDic[playerInfoProxy.userID];
         userReadyId = playerInfoProxy.userID;
         var updateHeadIndex = (updatePlayInfoVOS2C.sit - selfInfoVO.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
+        View.headItemList[updateHeadIndex].transform.FindChild("Head").gameObject.SetActive(true);
         if (battleProxy.playerIdInfoDic.ContainsKey(updatePlayInfoVOS2C.userId))
         {
             View.headItemList[updateHeadIndex].GetComponent<HeadItem>().data = updatePlayInfoVOS2C;
@@ -472,18 +478,33 @@ public class BattleViewMediator : Mediator, IMediator
         sysTimeId = Timer.Instance.AddDeltaTimer(1, 0, 1, UpdateSystemTime);
         UpdateSystemTime();
         var hallProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.HALL_PROXY) as HallProxy;
-        View.roomIdTxt.text = hallProxy.HallInfo.roomCode;
-        if (battleProxy.isStart)
+        if (RoomInfo.RoomId != null)
         {
-            if (hallProxy.HallInfo.innings.GetHashCode() == 8)
-            {
-                View.roundTxt.text = string.Format("{0}/{1}", battleProxy.curInnings, "8");
-            }
-            else
-            {
-                View.roundTxt.text = "一锅";
-            } 
+            View.roomIdTxt.text = RoomInfo.RoomId;
         }
+        if (RoomInfo.Round != null)
+        {
+            View.roundTxt.text = RoomInfo.Round;
+        }
+        if (RoomInfo.Rule1 != null)
+        {
+            View.ruleText.text = RoomInfo.Rule1;
+            View.ruleText1.text = RoomInfo.Rule2;
+            View.ruleText2.text = RoomInfo.Rule3;
+        }
+        //View.roomIdTxt.text = hallProxy.HallInfo.roomCode;
+        //if (battleProxy.isStart)
+        //{
+        //    if (hallProxy.HallInfo.innings.GetHashCode() == 8)
+        //    {
+        //        View.roundTxt.text = string.Format("{0}/{1}", battleProxy.curInnings, "8");
+        //    }
+        //    else
+        //    {
+        //        View.roundTxt.text = "一锅";
+        //    } 
+        //}
+
        
         View.leftCardNumTxt.text = string.Format("剩 {0} 张", battleProxy.leftCard); 
         GameMgr.Instance.StartCoroutine(PingIP());

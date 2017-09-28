@@ -52,7 +52,7 @@ namespace Platform.Utils
             {
                 if (i > 0)
                 {
-                    pengGangPos += areaItem.pengGangGap * 1.2f;
+                    pengGangPos += areaItem.pengGangGap * 1.5f;//1.2f
                 }
                 if (areaItem.data.pengGangCards[i].targetUserId == areaItem.data.userId || areaItem.data.pengGangCards[i].targetUserId == 0)
                 {
@@ -81,8 +81,7 @@ namespace Platform.Utils
                     {
                         var targetPlayerInfoVO = battleProxy.playerIdInfoDic[areaItem.data.pengGangCards[i].targetUserId];
                         var targetIndex = targetPlayerInfoVO.sit;//(targetPlayerInfoVO.sit - areaItem.data.sit + GlobalData.SIT_NUM) % GlobalData.SIT_NUM;
-
-
+                        
                         GameObject go = new GameObject();
                         go.AddComponent<SpriteRenderer>();
                         go.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Textures/91city_chipenggang/right@2x");
@@ -642,15 +641,15 @@ namespace Platform.Utils
             {
                 if (areaItem.dir == AreaDir.LEFT)
                 {
-                    card.transform.localEulerAngles = new Vector3(-90, 0, 10);
+                    card.transform.localEulerAngles = new Vector3(-90, 0, 0);
                 }
                 else if (areaItem.dir == AreaDir.RIGHT)
                 {
-                    card.transform.localEulerAngles = new Vector3(-90, 0, -10);
+                    card.transform.localEulerAngles = new Vector3(-90, 0, 0);
                 }
                 else if (areaItem.dir == AreaDir.UP)
                 {
-                    card.transform.localEulerAngles = new Vector3(0, 0, 180);
+                    card.transform.localEulerAngles = new Vector3(-90, 0, 0);
                 }
                 else
                 {

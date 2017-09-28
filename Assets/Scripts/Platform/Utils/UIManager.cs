@@ -269,7 +269,7 @@ public class UIManager
 	/// <summary>
 	/// 设置UI到顶层
 	/// </summary>
-	public void BringToTop (UIViewID viewID)
+	public void BringToTop (UIViewID viewID,int i =1)
 	{
 		if (viewDic.ContainsKey (viewID)) {
 			var view = viewDic [viewID];
@@ -277,7 +277,7 @@ public class UIManager
 				return;
 			}
 			var nextUI = GetUIView (viewID);
-			nextUI.viewRoot.transform.SetSiblingIndex (nextUI.viewRoot.transform.parent.childCount - 1);
+			nextUI.viewRoot.transform.SetSiblingIndex (nextUI.viewRoot.transform.parent.childCount - i);
 		}                
 	}
 
@@ -285,7 +285,7 @@ public class UIManager
 	/// 设置UI到底层
 	/// </summary>
 	/// <param name="viewID"></param>
-	public void BringToBottom (UIViewID viewID)
+	public void BringToBottom (UIViewID viewID ,int i =0)
 	{
 		if (viewDic.ContainsKey (viewID)) {
 			var view = viewDic [viewID];
@@ -293,7 +293,7 @@ public class UIManager
 				return;
 			}
 			var nextUI = GetUIView (viewID);
-			nextUI.viewRoot.transform.SetSiblingIndex (0);
+			nextUI.viewRoot.transform.SetSiblingIndex (i);
 		}
 	}
 

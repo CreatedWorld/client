@@ -23,11 +23,15 @@ public static class GlobalData
     /// <summary>
     /// 登录服务器
     /// </summary>
-    public static string LoginServer = "192.168.4.143";
+    public static string LoginServer = "192.168.4.8";
     /// <summary>
     /// 是否有牌堆
     /// </summary>
     public static bool hasHeap = true;
+    /// <summary>
+    /// 色子点数
+    /// </summary>
+    public static List<int> dices = new List<int>();
     /// <summary>
     /// 登录端口
     /// </summary>
@@ -51,7 +55,7 @@ public static class GlobalData
     /// <summary>
     /// 版本号
     /// </summary>
-    public static string VERSIONS = "9.19.1.2";
+    public static string VERSIONS = "2017.09.28.18";
     /// <summary>
     /// 当前轮到哪个玩家出牌的id
     /// </summary>
@@ -73,7 +77,10 @@ public static class GlobalData
     /// 座位号数组
     /// </summary>
     public static int[] NextSits = { 1, 2, 3, 4 };
-
+    /// <summary>
+    /// 用于开局选择方向
+    /// </summary>
+    public static bool ComfirSit = false;
     /// <summary>
     /// 牌型
     /// </summary>
@@ -227,7 +234,14 @@ public static class GlobalData
     /// 房间解散默认超时时间
     /// </summary>
     public const int DISLOVE_APPLY_TIMEOUT = 300;
-
+    /// <summary>
+    /// 是否需要显示发牌动画
+    /// </summary>
+    public static bool ShowSendCardAnimation = false;
+    /// <summary>
+    /// 是否流局（黄莊）
+    /// </summary>
+    //public static bool isNoneHu = true;
     /// <summary>
     /// 聊天常用语
     /// </summary>
@@ -564,4 +578,17 @@ public class StartUpParam
     /// 房间号
     /// </summary>
     public const string ROOMID = "roomId";
+}
+/// <summary>
+/// 房间信息，房间号、玩法、局数
+/// </summary>
+public class RoomInfo
+{
+    public static string RoomId;
+
+    public static string Rule1;
+    public static string Rule2;
+    public static string Rule3;
+
+    public static string Round;
 }

@@ -229,6 +229,9 @@ public class BattleView : UIView
                 ruleText.text = string.Format("【{0}】", PlayerPrefs.GetString(PrefsKey.RULE1));
                 ruleText1.text = string.Format("【{0}】", PlayerPrefs.GetString(PrefsKey.RULE2));
                 ruleText2.text = string.Format("【{0}】", PlayerPrefs.GetString(PrefsKey.RULE3));
+                RoomInfo.Rule1 = string.Format("【{0}】", PlayerPrefs.GetString(PrefsKey.RULE1));
+                RoomInfo.Rule2 = string.Format("【{0}】", PlayerPrefs.GetString(PrefsKey.RULE2));
+                RoomInfo.Rule3 = string.Format("【{0}】", PlayerPrefs.GetString(PrefsKey.RULE3));
             } 
         }
 

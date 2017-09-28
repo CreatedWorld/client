@@ -70,7 +70,14 @@ namespace Platform.View.Battle
         /// </summary>
         private void InitUI()
         {
+            var hallProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.HALL_PROXY) as HallProxy;
+
+            //View.RoomCode.text =RoomInfo.RoomId ;
+            //View.CurrentInn.text = RoomInfo.Round;
+            //View.Rule1.text = RoomInfo.Rule1 + RoomInfo.Rule2 + RoomInfo.Rule3;
+            
             var matchResultS2C = battleProxy.matchResultS2C;
+
             for (var i = 0; i < matchResultS2C.resultInfos.Count; i++)
             {
                 View.playerItems[i].data = matchResultS2C.resultInfos[i];
@@ -92,9 +99,9 @@ namespace Platform.View.Battle
             {
                 //View.titleIcon.gameObject.SetActive(true);
                 //View.titleIcon.sprite = Resources.Load<Sprite>("Textures/MatchPassTitle");
-                View.viewRoot.GetComponent<Animator>().enabled = true;
-                View.viewRoot.GetComponent<Animator>().Play("MatchResultOpen", 0, 0);
-                GameMgr.Instance.StartCoroutine(AudioSystem.Instance.PlayEffectAudio("Voices/Effect/Failt"));
+                //View.viewRoot.GetComponent<Animator>().enabled = true;
+                //View.viewRoot.GetComponent<Animator>().Play("MatchResultOpen", 0, 0);
+                //GameMgr.Instance.StartCoroutine(AudioSystem.Instance.PlayEffectAudio("Voices/Effect/Failt"));
             }
             else
             {
@@ -104,7 +111,6 @@ namespace Platform.View.Battle
                 //View.viewRoot.GetComponent<Animator>().Play("MatchResultOpen", 0, 0);
                 //GameMgr.Instance.StartCoroutine(AudioSystem.Instance.PlayEffectAudio("Voices/Effect/Failt"));
             }
-            var hallProxy = ApplicationFacade.Instance.RetrieveProxy(Proxys.HALL_PROXY) as HallProxy;
             //if (battleProxy.curInnings == hallProxy.HallInfo.innings.GetHashCode() && battleProxy.matchResultS2C.huUserId.Count > 0)//是否是最后一局
             //{
             //    View.startNextBtnTxt.text = "牌局结算";
@@ -153,9 +159,10 @@ namespace Platform.View.Battle
         /// <returns></returns>
         private IEnumerator PlayCloseEffect()
         {
-            Debug.Log("多次准备？？？？？");
             //View.viewRoot.GetComponent<Animator>().Play("MatchResultClose",0,0);
-            UIManager.Instance.HideUI(UIViewID.MATCH_RESULT_VIEW);
+            //UIManager.Instance.HideUI(UIViewID.MATCH_RESULT_VIEW);
+            
+            yield return new WaitForSeconds(0.4f);
             foreach (MatchResultPlayerItem matchResultPlayerItem in View.playerItems)
             {
                 matchResultPlayerItem.SaveAllCard();
@@ -165,7 +172,6 @@ namespace Platform.View.Battle
                 GameObject.Destroy(View.actEffect);
                 View.actEffect = null;
             }
-            yield return new WaitForSeconds(0.4f);
             if (battleProxy.roomResultS2C != null)//最后一局
             {
                 UIManager.Instance.HideUI(UIViewID.MATCH_RESULT_VIEW, ShowRoomResult);
@@ -185,7 +191,9 @@ namespace Platform.View.Battle
         /// </summary>
         private void ShowRoomResult()
         {
-            Timer.Instance.AddTimer(0, 0, 0.3f, () => { UIManager.Instance.ShowUI(UIViewID.ROOM_RESULT_VIEW); });
+            Timer.Instance.AddTimer(0, 0, 0.3f, () => {
+                UIManager.Instance.ShowUI(UIViewID.ROOM_RESULT_VIEW);
+            });
         }
 
         /// <summary>
